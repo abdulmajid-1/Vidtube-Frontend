@@ -10,8 +10,15 @@ function Tweet() {
   const [newTweet, setNewTweet] = useState("");
   const [editTweetId, setEditTweetId] = useState(null);
   const [editTweetContent, setEditTweetContent] = useState("");
+  const [note, setNote] = useState(""); // ✅ New state for notification message
 
   const navigate = useNavigate();
+
+  // Function to show a note and auto-hide
+  const showNote = (message) => {
+    setNote(message);
+    setTimeout(() => setNote(""), 3000); // auto hide after 3s
+  };
 
   //  Check if user is logged in
   const checkAuth = async () => {
@@ -41,6 +48,7 @@ function Tweet() {
       setTweets(res.data.data.tweets || []);
     } catch (error) {
       console.error("Error fetching tweets:", error);
+      showNote("Error fetching tweets ❌");
     } finally {
       setLoading(false);
     }
@@ -60,8 +68,10 @@ function Tweet() {
 
       setNewTweet("");
       getAllTweets(); //  Re-fetch tweets from DB
+      showNote("✅ Tweet added successfully!");
     } catch (error) {
       console.error("Error adding tweet:", error);
+      showNote("❌ Error adding tweet");
     }
   };
 
@@ -73,8 +83,10 @@ function Tweet() {
         { withCredentials: true }
       );
       setTweets(tweets.filter((tweet) => tweet._id !== id));
+      showNote("🗑️ Tweet deleted successfully!");
     } catch (error) {
       console.error("Error deleting tweet:", error);
+      showNote("❌ Error deleting tweet");
     }
   };
 
@@ -95,8 +107,10 @@ function Tweet() {
       setEditTweetId(null);
       setEditTweetContent("");
       getAllTweets(); //  Re-fetch tweets from DB
+      showNote("✏️ Tweet updated successfully!");
     } catch (error) {
       console.error("Error updating tweet:", error);
+      showNote("❌ Error updating tweet");
     }
   };
 
@@ -133,6 +147,13 @@ function Tweet() {
           </button>
         </div>
       </nav>
+
+      {/* ✅ Notification Note */}
+      {note && (
+        <div className="fixed top-5 right-5 bg-gray-800 border border-gray-600 text-white px-4 py-2 rounded-lg shadow-lg z-50">
+          {note}
+        </div>
+      )}
 
       {/*  Add Tweet Form */}
       <div className="max-w-2xl mx-auto p-4 sm:p-6">
