@@ -6,7 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   server: {
     proxy: {
-      "/api": "https://vidtube-backend-2.onrender.com",
+      // "/api": "https://vidtube-backend-2.onrender.com",
     },
   },
   plugins: [react(), tailwindcss()],
