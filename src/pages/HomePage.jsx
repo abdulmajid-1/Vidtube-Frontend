@@ -28,7 +28,7 @@ export default function HomePage() {
   // Fetch videos with pagination
   const fetchVideos = async (pageNumber = 1) => {
     try {
-      console.log("API URL from env:", import.meta.env.VITE_API_URL);
+      // console.log("API URL from env:", import.meta.env.VITE_API_URL);
       const res = await axios.get(
         ` https://vidtube-backend-2.onrender.com/api/v1/videos/getAll?page=${pageNumber}`
       );

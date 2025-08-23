@@ -194,7 +194,7 @@ function Dashboard() {
       </nav>
 
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6">Stats</h1>
+        <h1 className="text-3xl font-arial mb-6">Stats</h1>
 
         {/* Stats */}
         {stats && (
