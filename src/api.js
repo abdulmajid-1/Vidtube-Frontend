@@ -9,6 +9,7 @@ api.interceptors.request.use((config) => {
   if (config.url.startsWith("/api")) {
     config.url = config.url.replace("/api", "");
   }
+  console.log("Final request URL:", config.baseURL + config.url);
   return config;
 });
 
