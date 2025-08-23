@@ -33,7 +33,8 @@ function Dashboard() {
   const checkAuth = async () => {
     try {
       const res = await axios.get(
-        "https://vidtube-backend-2.onrender.com/api/v1/users/current-user"
+        "https://vidtube-backend-2.onrender.com/api/v1/users/current-user",
+        { withCredentials: true }
       );
       if (!res.data.success) {
         navigate("/login");
@@ -48,7 +49,8 @@ function Dashboard() {
   const fetchStats = async () => {
     try {
       const res = await axios.get(
-        "https://vidtube-backend-2.onrender.com/api/v1/dashboard/stats"
+        "https://vidtube-backend-2.onrender.com/api/v1/dashboard/stats",
+        { withCredentials: true }
       );
       setStats(res.data.data);
     } catch (err) {
@@ -60,7 +62,8 @@ function Dashboard() {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://vidtube-backend-2.onrender.com/api/v1/dashboard/videos?page=${pageNum}`
+        `https://vidtube-backend-2.onrender.com/api/v1/dashboard/videos?page=${pageNum}`,
+        { withCredentials: true }
       );
       setVideos(res.data.data.videos);
       setPage(res.data.data.currentPage);
