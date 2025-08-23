@@ -10,14 +10,15 @@ function Tweet() {
   const [newTweet, setNewTweet] = useState("");
   const [editTweetId, setEditTweetId] = useState(null);
   const [editTweetContent, setEditTweetContent] = useState("");
-  const [note, setNote] = useState(""); // ✅ New state for notification message
+  const [note, setNote] = useState(null); // ✅ message + type
+  const [currentUser, setCurrentUser] = useState(null); // ✅ store logged-in user
 
   const navigate = useNavigate();
 
-  // Function to show a note and auto-hide
-  const showNote = (message) => {
-    setNote(message);
-    setTimeout(() => setNote(""), 3000); // auto hide after 3s
+  // Function to show a styled note
+  const showNote = (message, type = "info") => {
+    setNote({ message, type });
+    setTimeout(() => setNote(null), 3000);
   };
 
   //  Check if user is logged in
@@ -29,6 +30,8 @@ function Tweet() {
       );
       if (!res.data.success) {
         navigate("/login");
+      } else {
+        setCurrentUser(res.data.data); // ✅ store user data
       }
     } catch (err) {
       console.log("error checking auth", err);
@@ -48,7 +51,7 @@ function Tweet() {
       setTweets(res.data.data.tweets || []);
     } catch (error) {
       console.error("Error fetching tweets:", error);
-      showNote("Error fetching tweets ❌");
+      showNote("Error fetching tweets ❌", "error");
     } finally {
       setLoading(false);
     }
@@ -67,11 +70,11 @@ function Tweet() {
       );
 
       setNewTweet("");
-      getAllTweets(); //  Re-fetch tweets from DB
-      showNote("✅ Tweet added successfully!");
+      getAllTweets();
+      showNote("✅ Tweet added successfully!", "success");
     } catch (error) {
       console.error("Error adding tweet:", error);
-      showNote("❌ Error adding tweet");
+      showNote("❌ Error adding tweet", "error");
     }
   };
 
@@ -83,10 +86,10 @@ function Tweet() {
         { withCredentials: true }
       );
       setTweets(tweets.filter((tweet) => tweet._id !== id));
-      showNote("🗑️ Tweet deleted successfully!");
+      showNote("🗑️ Tweet deleted successfully!", "success");
     } catch (error) {
       console.error("Error deleting tweet:", error);
-      showNote("❌ Error deleting tweet");
+      showNote("❌ Error deleting tweet", "error");
     }
   };
 
@@ -106,11 +109,11 @@ function Tweet() {
 
       setEditTweetId(null);
       setEditTweetContent("");
-      getAllTweets(); //  Re-fetch tweets from DB
-      showNote("✏️ Tweet updated successfully!");
+      getAllTweets();
+      showNote("✏️ Tweet updated successfully!", "success");
     } catch (error) {
       console.error("Error updating tweet:", error);
-      showNote("❌ Error updating tweet");
+      showNote("❌ Error updating tweet", "error");
     }
   };
 
@@ -129,7 +132,7 @@ function Tweet() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200">
-      {/*  Navbar */}
+      {/* Navbar */}
       <nav className="bg-gray-800 px-6 py-4 flex justify-between items-center shadow">
         <h1 className="text-xl font-bold text-white">Tweet App</h1>
         <div className="space-x-4">
@@ -150,12 +153,20 @@ function Tweet() {
 
       {/* ✅ Notification Note */}
       {note && (
-        <div className="fixed top-5 right-5 bg-gray-800 border border-gray-600 text-white px-4 py-2 rounded-lg shadow-lg z-50">
-          {note}
+        <div
+          className={`fixed top-5 right-5 px-5 py-3 rounded-xl shadow-lg z-50 transform transition-all duration-500 ${
+            note.type === "success"
+              ? "bg-green-600 text-white"
+              : note.type === "error"
+              ? "bg-red-600 text-white"
+              : "bg-gray-700 text-white"
+          }`}
+        >
+          {note.message}
         </div>
       )}
 
-      {/*  Add Tweet Form */}
+      {/* Add Tweet Form */}
       <div className="max-w-2xl mx-auto p-4 sm:p-6">
         <div className="bg-gray-800 border border-gray-700 p-4 rounded-xl flex flex-col sm:flex-row gap-3">
           <input
@@ -174,7 +185,7 @@ function Tweet() {
         </div>
       </div>
 
-      {/*  Tweets Section */}
+      {/* Tweets Section */}
       <div className="max-w-2xl mx-auto p-4 sm:p-6 space-y-6">
         {tweets.length === 0 ? (
           <p className="text-center text-gray-400">No tweets found.</p>
@@ -236,28 +247,30 @@ function Tweet() {
                 />
               )}
 
-              {/* Actions */}
+              {/* Actions (only for current user’s tweets) */}
               <div className="flex justify-between items-center">
                 <p className="text-gray-400 text-xs">
                   {new Date(tweet.createdAt).toLocaleString()}
                 </p>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => {
-                      setEditTweetId(tweet._id);
-                      setEditTweetContent(tweet.content);
-                    }}
-                    className="text-indigo-400 hover:text-indigo-300"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => deleteTweet(tweet._id)}
-                    className="text-red-400 hover:text-red-300"
-                  >
-                    Delete
-                  </button>
-                </div>
+                {currentUser && tweet.owner._id === currentUser._id && (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        setEditTweetId(tweet._id);
+                        setEditTweetContent(tweet.content);
+                      }}
+                      className="text-indigo-400 hover:text-indigo-300"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => deleteTweet(tweet._id)}
+                      className="text-red-400 hover:text-red-300"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           ))
