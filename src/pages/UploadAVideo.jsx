@@ -99,13 +99,13 @@ function UploadAVideo() {
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200">
       {/* Navbar */}
-      <nav className="bg-gray-800 text-white px-6 py-4 flex justify-between items-center shadow-md">
-        <h1 className="text-lg font-bold">Video Manager</h1>
-        <div className="flex items-center gap-4">
+      <nav className="bg-gray-800 px-4 sm:px-6 py-4 flex flex-col sm:flex-row justify-between items-center shadow gap-4">
+        <h1 className="text-lg sm:text-xl font-bold text-white">Video Manager</h1>
+        <div className="flex items-center gap-2 sm:gap-4">
           <span className="text-sm">Hi, {currentUsername || "User"} </span>
           <button
             onClick={() => navigate("/dashboard")}
-            className="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-500 transition"
+            className="bg-indigo-600 text-white px-3 sm:px-4 py-2 rounded-lg font-medium hover:bg-indigo-500 transition text-sm sm:text-base"
           >
             Dashboard
           </button>
@@ -113,13 +113,13 @@ function UploadAVideo() {
       </nav>
 
       {/* Main Content */}
-      <div className="flex justify-center items-center p-6">
-        <div className="bg-gray-800 shadow-lg rounded-xl p-6 w-full max-w-lg border border-gray-700">
-          <h2 className="text-2xl font-bold mb-6 text-white text-center">
+      <div className="flex justify-center items-center p-4 sm:p-6">
+        <div className="bg-gray-800 shadow-lg rounded-xl p-4 sm:p-6 w-full max-w-sm sm:max-w-lg border border-gray-700">
+          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-white text-center">
             Upload Video
           </h2>
 
-          <form onSubmit={UploadVideo} className="space-y-4">
+          <form onSubmit={UploadVideo} className="space-y-4 sm:space-y-6">
             {/* Text inputs */}
             <input
               type="text"
@@ -127,7 +127,7 @@ function UploadAVideo() {
               placeholder="Title"
               value={formData.title}
               onChange={handleChange}
-              className="border border-gray-700 bg-gray-900 text-white p-2 w-full rounded-md focus:ring-2 focus:ring-indigo-600 focus:outline-none placeholder-gray-400"
+              className="w-full border border-gray-700 bg-gray-900 text-white p-3 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:outline-none placeholder-gray-400 text-sm sm:text-base"
             />
 
             <textarea
@@ -135,12 +135,12 @@ function UploadAVideo() {
               placeholder="Description"
               value={formData.description}
               onChange={handleChange}
-              className="border border-gray-700 bg-gray-900 text-white p-2 w-full rounded-md h-24 resize-none focus:ring-2 focus:ring-indigo-600 focus:outline-none placeholder-gray-400"
+              className="w-full border border-gray-700 bg-gray-900 text-white p-3 rounded-lg h-20 sm:h-24 resize-none focus:ring-2 focus:ring-indigo-600 focus:outline-none placeholder-gray-400 text-sm sm:text-base"
             />
 
             {/* File inputs */}
             <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
+              <label className="block text-sm font-medium mb-2 text-gray-300">
                 Thumbnail
               </label>
               <input
@@ -148,19 +148,19 @@ function UploadAVideo() {
                 name="thumbnail"
                 accept="image/*"
                 onChange={handleFileChange}
-                className="mb-2 text-gray-300"
+                className="w-full border border-gray-700 bg-gray-900 text-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:outline-none text-sm"
               />
               {thumbnail && (
                 <img
                   src={URL.createObjectURL(thumbnail)}
                   alt="Thumbnail Preview"
-                  className="w-32 h-32 object-cover rounded-lg border border-gray-700"
+                  className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-lg border border-gray-700 mt-2"
                 />
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
+              <label className="block text-sm font-medium mb-2 text-gray-300">
                 Video File
               </label>
               <input
@@ -168,13 +168,13 @@ function UploadAVideo() {
                 name="videoFile"
                 accept="video/*"
                 onChange={handleFileChange}
-                className="mb-2 text-gray-300"
+                className="w-full border border-gray-700 bg-gray-900 text-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:outline-none text-sm"
               />
               {videoFile && (
                 <video
                   controls
                   src={URL.createObjectURL(videoFile)}
-                  className="w-full rounded-lg border border-gray-700"
+                  className="w-full rounded-lg border border-gray-700 mt-2"
                 />
               )}
             </div>
@@ -183,7 +183,7 @@ function UploadAVideo() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-500 transition disabled:opacity-50"
+              className="w-full bg-indigo-600 text-white px-4 py-3 rounded-lg font-medium hover:bg-indigo-500 transition disabled:opacity-50 text-sm sm:text-base"
             >
               {loading ? "Uploading..." : "Upload Video"}
             </button>
@@ -192,7 +192,7 @@ function UploadAVideo() {
           {/* Show notification */}
           {msg.text && (
             <div
-              className={`mt-4 p-3 rounded-lg border ${
+              className={`mt-4 p-3 rounded-lg border text-sm ${
                 msg.type === "success"
                   ? "bg-green-900/30 border-green-800 text-green-200"
                   : msg.type === "error"

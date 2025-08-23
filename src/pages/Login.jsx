@@ -49,23 +49,23 @@ function Login() {
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200">
       {/* Navbar */}
-      <nav className="bg-gray-800 px-6 py-4 flex justify-between items-center shadow">
+      <nav className="bg-gray-800 px-4 sm:px-6 py-4 flex flex-col sm:flex-row justify-between items-center shadow gap-4">
         <h1
           onClick={() => navigate("/HomePage")}
-          className="text-4xl font-Brush Script MT leading-none tracking-tight text-white cursor-pointer"
+          className="text-3xl sm:text-4xl font-Brush Script MT leading-none tracking-tight text-white cursor-pointer"
         >
           VidTube
         </h1>
-        <div className="space-x-4">
+        <div className="flex flex-wrap gap-2 sm:gap-4 justify-center">
           <button
             onClick={() => navigate("/HomePage")}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition"
+            className="px-3 sm:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition text-sm sm:text-base"
           >
             Home
           </button>
           <button
             onClick={() => navigate("/register")}
-            className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-600 transition"
+            className="px-3 sm:px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-600 transition text-sm sm:text-base"
           >
             Register
           </button>
@@ -73,10 +73,10 @@ function Login() {
       </nav>
 
       {/* Main Content */}
-      <div className="flex justify-center items-center min-h-[calc(100vh-80px)]">
+      <div className="flex justify-center items-center min-h-[calc(100vh-80px)] p-4">
         <form
           onSubmit={handleSubmit}
-          className="bg-gray-800 p-8 rounded-xl shadow-lg w-96 space-y-6 border border-gray-700"
+          className="bg-gray-800 p-6 sm:p-8 rounded-xl shadow-lg w-full max-w-sm sm:max-w-md space-y-6 border border-gray-700"
         >
           <h2 className="text-2xl font-bold text-center text-white">Login</h2>
 
@@ -87,7 +87,7 @@ function Login() {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full border border-gray-700 bg-gray-900 text-white p-3 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:outline-none placeholder-gray-400"
+            className="w-full border border-gray-700 bg-gray-900 text-white p-3 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:outline-none placeholder-gray-400 text-sm sm:text-base"
             required
           />
 
@@ -98,7 +98,7 @@ function Login() {
             placeholder="Username"
             value={formData.username}
             onChange={handleChange}
-            className="w-full border border-gray-700 bg-gray-900 text-white p-3 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:outline-none placeholder-gray-400"
+            className="w-full border border-gray-700 bg-gray-900 text-white p-3 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:outline-none placeholder-gray-400 text-sm sm:text-base"
             required
           />
 
@@ -109,7 +109,7 @@ function Login() {
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full border border-gray-700 bg-gray-900 text-white p-3 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:outline-none placeholder-gray-400"
+            className="w-full border border-gray-700 bg-gray-900 text-white p-3 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:outline-none placeholder-gray-400 text-sm sm:text-base"
             required
           />
 
@@ -117,7 +117,7 @@ function Login() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full text-white py-3 rounded-lg font-medium transition ${
+            className={`w-full text-white py-3 rounded-lg font-medium transition text-sm sm:text-base ${
               loading
                 ? "bg-gray-600 cursor-not-allowed"
                 : "bg-indigo-600 hover:bg-indigo-500"
@@ -128,7 +128,7 @@ function Login() {
 
           {/* Register Link */}
           <div className="text-center">
-            <p className="text-gray-400">
+            <p className="text-gray-400 text-sm">
               Don't have an account?{" "}
               <button
                 type="button"

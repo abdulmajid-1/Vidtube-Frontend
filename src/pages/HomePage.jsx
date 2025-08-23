@@ -205,61 +205,61 @@ export default function HomePage() {
   return (
     <div className="bg-gray-900 min-h-screen text-gray-200">
       {/* Navbar */}
-      <nav className="flex justify-between items-center px-6 py-4 bg-gray-800 shadow-md">
+      <nav className="flex flex-col sm:flex-row justify-between items-center px-4 sm:px-6 py-4 bg-gray-800 shadow-md gap-4">
         <h1
           onClick={() => {
             setSelectedVideo(null);
             navigate("/HomePage");
           }}
-          className="text-4xl font-Brush Script MT leading-none tracking-tight text-white cursor-pointer"
+          className="text-3xl sm:text-4xl font-Brush Script MT leading-none tracking-tight text-white cursor-pointer"
         >
           VidTube
         </h1>
 
         {authLoading ? null : isLoggedIn ? (
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-2 sm:gap-4 justify-center">
             <button
               onClick={() => navigate("/Dashboard")}
-              className="px-4 py-2 bg-amber-400 text-white rounded-lg hover:bg-amber-600 transition"
+              className="px-3 sm:px-4 py-2 bg-amber-400 text-white rounded-lg hover:bg-amber-600 transition text-sm sm:text-base"
             >
               Dashboard
             </button>
             <button
               onClick={() => navigate("/MyProfile")}
-              className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-600 transition"
+              className="px-3 sm:px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-600 transition text-sm sm:text-base"
             >
               My Profile
             </button>
             <button
               onClick={() => navigate("/Tweet")}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition"
+              className="px-3 sm:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition text-sm sm:text-base"
             >
               Tweet
             </button>
             <button
               onClick={handleLogout}
-              className="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-600 transition"
+              className="px-3 sm:px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-600 transition text-sm sm:text-base"
             >
               Logout
             </button>
           </div>
         ) : (
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-2 sm:gap-4 justify-center">
             <button
               onClick={() => navigate("/TweetNoLogin")}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition"
+              className="px-3 sm:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition text-sm sm:text-base"
             >
               Tweet
             </button>
             <button
               onClick={() => navigate("/login")}
-              className="px-4 py-2 bg-neutral-700 text-white rounded-lg hover:bg-neutral-600 transition"
+              className="px-3 sm:px-4 py-2 bg-neutral-700 text-white rounded-lg hover:bg-neutral-600 transition text-sm sm:text-base"
             >
               Login
             </button>
             <button
               onClick={() => navigate("/register")}
-              className="px-4 py-2 bg-neutral-600 text-white rounded-lg hover:bg-neutral-500 transition"
+              className="px-3 sm:px-4 py-2 bg-neutral-600 text-white rounded-lg hover:bg-neutral-500 transition text-sm sm:text-base"
             >
               Register
             </button>
@@ -268,24 +268,24 @@ export default function HomePage() {
       </nav>
 
       {/* Hero Section */}
-      <div className="text-center py-10">
-        <h2 className="text-5xl font-arial text-white mb-4">
+      <div className="text-center py-6 sm:py-10 px-4">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-arial text-white mb-4">
           Stream, Share & Connect
         </h2>
-        <p className="text-lg text-gray-400">
+        <p className="text-base sm:text-lg text-gray-400">
           Discover amazing videos shared by our community
         </p>
       </div>
 
       {/* Video Section */}
-      <div className="bg-gray-800 shadow rounded-lg p-6">
+      <div className="bg-gray-800 shadow rounded-lg p-4 sm:p-6 mx-4 sm:mx-6">
         <h2 className="text-lg font-semibold mb-4 text-white">Your Videos</h2>
         {loading ? (
           <p className="text-gray-400">Loading videos...</p>
         ) : videos.length === 0 ? (
           <p className="text-gray-400">No videos found.</p>
         ) : (
-          <ul className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {videos.map((video) => (
               <li
                 key={video._id}
@@ -297,15 +297,15 @@ export default function HomePage() {
                 }
               >
                 {selectedVideo === video._id ? (
-                  <div className="p-4">
-                    <video controls className="w-full h-64 rounded-md mb-3">
+                  <div className="p-3 sm:p-4">
+                    <video controls className="w-full h-48 sm:h-64 rounded-md mb-3">
                       <source src={video.videoFile} type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
-                    <h3 className="text-lg font-bold mb-2 text-white">
+                    <h3 className="text-base sm:text-lg font-bold mb-2 text-white">
                       {video.title}
                     </h3>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-xs sm:text-sm text-gray-400">
                       {video.owner?.username} •{" "}
                       {new Date(video.createdAt).toLocaleDateString()}
                     </p>
@@ -318,13 +318,13 @@ export default function HomePage() {
                           toggleVideoLike(video._id);
                         }}
                         disabled={videoLoading}
-                        className="mt-2 px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white text-sm rounded disabled:opacity-50"
+                        className="mt-2 px-2 sm:px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white text-xs sm:text-sm rounded disabled:opacity-50"
                       >
                         ❤️ {video.totalLikes}
                       </button>
                     )}
 
-                    <p className="text-gray-300 mt-2">
+                    <p className="text-gray-300 mt-2 text-xs sm:text-sm">
                       {video.totalComments}
                       <button
                         onClick={(e) => {
@@ -333,7 +333,7 @@ export default function HomePage() {
                           fetchComments(video._id);
                           setShowCommentsModal(true);
                         }}
-                        className="ml-2 px-3 py-1 bg-indigo-600 text-white text-sm font-medium rounded-lg shadow hover:bg-indigo-500 active:scale-95 transition duration-200"
+                        className="ml-2 px-2 sm:px-3 py-1 bg-indigo-600 text-white text-xs sm:text-sm font-medium rounded-lg shadow hover:bg-indigo-500 active:scale-95 transition duration-200"
                       >
                         💬 Comments
                       </button>
@@ -344,13 +344,13 @@ export default function HomePage() {
                     <img
                       src={video.thumbnail}
                       alt={video.title}
-                      className="w-full h-40 object-cover rounded-t-md"
+                      className="w-full h-32 sm:h-40 object-cover rounded-t-md"
                     />
                     <div className="p-3">
-                      <h3 className="text-md font-semibold text-white">
+                      <h3 className="text-sm sm:text-md font-semibold text-white">
                         {video.title}
                       </h3>
-                      <p className="text-sm text-gray-400">
+                      <p className="text-xs sm:text-sm text-gray-400">
                         {video.owner?.username} •{" "}
                         {new Date(video.createdAt).toLocaleDateString()}
                       </p>
@@ -363,13 +363,13 @@ export default function HomePage() {
                             toggleVideoLike(video._id);
                           }}
                           disabled={videoLoading}
-                          className="mt-2 px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white text-sm rounded disabled:opacity-50"
+                          className="mt-2 px-2 sm:px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white text-xs sm:text-sm rounded disabled:opacity-50"
                         >
                           ❤️ {video.totalLikes}
                         </button>
                       )}
 
-                      <p className="text-gray-300 mt-2">
+                      <p className="text-gray-300 mt-2 text-xs sm:text-sm">
                         {video.totalComments}
                         <button
                           onClick={(e) => {
@@ -378,7 +378,7 @@ export default function HomePage() {
                             fetchComments(video._id);
                             setShowCommentsModal(true);
                           }}
-                          className="mt-2 px-3 py-1 bg-indigo-600 text-white text-sm font-medium rounded-lg shadow hover:bg-indigo-500 active:scale-95 transition duration-200"
+                          className="mt-2 sm:mt-0 sm:ml-2 px-2 sm:px-3 py-1 bg-indigo-600 text-white text-xs sm:text-sm font-medium rounded-lg shadow hover:bg-indigo-500 active:scale-95 transition duration-200"
                         >
                           💬 Comments
                         </button>
@@ -393,9 +393,9 @@ export default function HomePage() {
 
         {/* Comments Modal */}
         {showCommentsModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-            <div className="bg-gray-900 p-7 rounded-2xl w-[420px] max-h-[80vh] overflow-y-auto shadow-2xl border border-gray-700">
-              <h2 className="text-xl font-extrabold mb-5 text-indigo-400 tracking-wide text-center">
+          <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4">
+            <div className="bg-gray-900 p-4 sm:p-7 rounded-2xl w-full max-w-md sm:max-w-lg max-h-[80vh] overflow-y-auto shadow-2xl border border-gray-700">
+              <h2 className="text-lg sm:text-xl font-extrabold mb-4 sm:mb-5 text-indigo-400 tracking-wide text-center">
                 Comments
               </h2>
 
@@ -407,7 +407,7 @@ export default function HomePage() {
                     className="mb-4 flex items-start gap-3 bg-gray-800 rounded-xl p-3 shadow hover:shadow-lg transition-all border border-gray-700"
                   >
                     {/* Avatar */}
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
+                    <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden">
                       {c.owner?.avatar ? (
                         <img
                           src={c.owner.avatar}
@@ -415,32 +415,32 @@ export default function HomePage() {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full bg-indigo-600 flex items-center justify-center text-white font-bold text-lg">
+                        <div className="w-full h-full bg-indigo-600 flex items-center justify-center text-white font-bold text-sm sm:text-lg">
                           {c.owner?.username?.[0]?.toUpperCase() || "U"}
                         </div>
                       )}
                     </div>
 
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       {editCommentId === c._id ? (
                         <div className="flex flex-col gap-2">
                           <input
                             type="text"
                             value={editContent}
                             onChange={(e) => setEditContent(e.target.value)}
-                            className="w-full border border-indigo-600 bg-gray-900 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                            className="w-full border border-indigo-600 bg-gray-900 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-600 text-sm"
                           />
                           <div className="flex gap-2">
                             <button
                               onClick={updateComment}
                               disabled={commentLoading}
-                              className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded shadow disabled:opacity-50"
+                              className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded shadow disabled:opacity-50 text-xs sm:text-sm"
                             >
                               {commentLoading ? "Saving..." : "Save"}
                             </button>
                             <button
                               onClick={() => setEditCommentId(null)}
-                              className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded"
+                              className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-xs sm:text-sm"
                             >
                               Cancel
                             </button>
@@ -449,7 +449,7 @@ export default function HomePage() {
                       ) : (
                         <>
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="font-semibold text-indigo-300">
+                            <span className="font-semibold text-indigo-300 text-sm">
                               {c.owner?.username || "Unknown"}
                             </span>
                             <span className="text-xs text-gray-400">
@@ -458,7 +458,7 @@ export default function HomePage() {
                                 : ""}
                             </span>
                           </div>
-                          <p className="text-gray-200 mb-2">{c.content}</p>
+                          <p className="text-gray-200 mb-2 text-sm">{c.content}</p>
 
                           {/* Restrict Update/Delete to owner */}
                           {isLoggedIn &&
@@ -497,18 +497,18 @@ export default function HomePage() {
                     placeholder="Write a comment..."
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
-                    className="w-full border border-indigo-600 bg-gray-800 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-600 mb-2"
+                    className="w-full border border-indigo-600 bg-gray-800 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-600 mb-2 text-sm"
                   />
                   <button
                     onClick={addComment}
                     disabled={commentLoading}
-                    className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded font-bold shadow-lg transition disabled:opacity-50"
+                    className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded font-bold shadow-lg transition disabled:opacity-50 text-sm"
                   >
                     {commentLoading ? "Adding..." : "Add Comment"}
                   </button>
                 </div>
               ) : (
-                <p className="text-gray-400 text-center mt-4">
+                <p className="text-gray-400 text-center mt-4 text-sm">
                   Please login to add comments.
                 </p>
               )}
@@ -516,7 +516,7 @@ export default function HomePage() {
               {/* Close */}
               <button
                 onClick={() => setShowCommentsModal(false)}
-                className="block w-full bg-gray-800 hover:bg-gray-700 text-white py-2 mt-5 rounded font-semibold transition"
+                className="block w-full bg-gray-800 hover:bg-gray-700 text-white py-2 mt-5 rounded font-semibold transition text-sm"
               >
                 Close
               </button>
@@ -529,18 +529,18 @@ export default function HomePage() {
           <button
             onClick={() => fetchVideos(page - 1)}
             disabled={page <= 1}
-            className="px-4 py-2 bg-gray-700 text-gray-300 rounded disabled:opacity-50 hover:bg-gray-600"
+            className="px-3 sm:px-4 py-2 bg-gray-700 text-gray-300 rounded disabled:opacity-50 hover:bg-gray-600 text-sm"
           >
             Prev
           </button>
-          <p className="text-gray-400">
+          <p className="text-gray-400 text-sm">
             Page {page} of {totalPages}
           </p>
 
           <button
             onClick={() => fetchVideos(page + 1)}
             disabled={page >= totalPages}
-            className="px-4 py-2 bg-gray-700 text-gray-300 rounded disabled:opacity-50 hover:bg-gray-600"
+            className="px-3 sm:px-4 py-2 bg-gray-700 text-gray-300 rounded disabled:opacity-50 hover:bg-gray-600 text-sm"
           >
             Next
           </button>

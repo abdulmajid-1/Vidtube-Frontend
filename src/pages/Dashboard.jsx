@@ -159,81 +159,107 @@ function Dashboard() {
   }
 
   return (
-    <div className="bg-gray-900 min-h-screen text-gray-200">
-      {/* Navbar */}
-      <nav className="bg-gray-800 px-6 py-4 flex justify-between items-center shadow">
-        <h1 className="text-4xl font-Brush Script MT leading-none tracking-tight text-white">
-          My Dashboard
-        </h1>
-        <div className="space-x-4">
+    <div className="min-h-screen bg-gray-900 text-gray-200">
+      {/* Header */}
+      <header className="bg-gray-800 px-4 sm:px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-white">Dashboard</h1>
+        <div className="flex flex-wrap gap-2 sm:gap-4">
+          <button
+            onClick={() => navigate("/HomePage")}
+            className="px-3 sm:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition text-sm sm:text-base"
+          >
+            Home
+          </button>
           <button
             onClick={() => navigate("/MyProfile")}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition"
+            className="px-3 sm:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition text-sm sm:text-base"
           >
             My Profile
           </button>
           <button
-            onClick={() => navigate("/HomePage")}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition"
-          >
-            HomePage
-          </button>
-          <button
             onClick={() => navigate("/Tweet")}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition"
+            className="px-3 sm:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition text-sm sm:text-base"
           >
             Tweet
           </button>
           <button
             onClick={() => navigate("/Playlists")}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition"
+            className="px-3 sm:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition text-sm sm:text-base"
           >
             Playlists
           </button>
+          <button
+            onClick={() => navigate("/UploadAVideo")}
+            className="px-3 sm:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition text-sm sm:text-base"
+          >
+            Upload Video
+          </button>
+          <button
+            onClick={() => {
+              setIsUpdateMode(true);
+              setIsDeleteMode(false);
+            }}
+            className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-500 transition text-sm sm:text-base"
+          >
+            Update Video
+          </button>
+          <button
+            onClick={() => {
+              setIsDeleteMode(true);
+              setIsUpdateMode(false);
+            }}
+            className="px-3 sm:px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm sm:text-base"
+          >
+            Delete Video
+          </button>
+          <button
+            onClick={() => navigate("/Login")}
+            className="px-3 sm:px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm sm:text-base"
+          >
+            Logout
+          </button>
         </div>
-      </nav>
+      </header>
 
-      <div className="p-6">
-        <h1 className="text-3xl font-arial mb-6">Stats</h1>
-
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8">
         {/* Stats */}
         {stats && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div className="bg-gray-800 shadow rounded-lg p-4 text-center">
-              <h2 className="text-xl font-bold text-indigo-400">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <div className="bg-gray-800 shadow rounded-lg p-3 sm:p-4 text-center">
+              <h2 className="text-lg sm:text-xl font-bold text-indigo-400">
                 {stats.totalVideos}
               </h2>
-              <p className="text-gray-400">Videos</p>
+              <p className="text-gray-400 text-sm">Videos</p>
             </div>
-            <div className="bg-gray-800 shadow rounded-lg p-4 text-center">
-              <h2 className="text-xl font-bold text-green-400">
+            <div className="bg-gray-800 shadow rounded-lg p-3 sm:p-4 text-center">
+              <h2 className="text-lg sm:text-xl font-bold text-green-400">
                 {stats.totalSubscribers}
               </h2>
-              <p className="text-gray-400">Subscribers</p>
+              <p className="text-gray-400 text-sm">Subscribers</p>
             </div>
-            <div className="bg-gray-800 shadow rounded-lg p-4 text-center">
-              <h2 className="text-xl font-bold text-blue-400">
+            <div className="bg-gray-800 shadow rounded-lg p-3 sm:p-4 text-center">
+              <h2 className="text-lg sm:text-xl font-bold text-blue-400">
                 {stats.totalViews}
               </h2>
-              <p className="text-gray-400">Views</p>
+              <p className="text-gray-400 text-sm">Views</p>
             </div>
-            <div className="bg-gray-800 shadow rounded-lg p-4 text-center">
-              <h2 className="text-xl font-bold text-pink-400">
+            <div className="bg-gray-800 shadow rounded-lg p-3 sm:p-4 text-center">
+              <h2 className="text-lg sm:text-xl font-bold text-pink-400">
                 {stats.totalLikes}
               </h2>
-              <p className="text-gray-400">Likes</p>
+              <p className="text-gray-400 text-sm">Likes</p>
             </div>
           </div>
         )}
 
         {/* Videos */}
-        <div className="bg-gray-800 shadow rounded-lg p-6 relative">
-          <nav className="flex justify-between items-center mb-4">
+        <div className="bg-gray-800 shadow rounded-lg p-4 sm:p-6 relative">
+          <nav className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
             <h2 className="text-lg font-semibold">Your Videos</h2>
-            <div className="space-x-4">
+            <div className="flex flex-wrap gap-2 sm:gap-4">
               <button
                 onClick={() => navigate("/UploadAVideo")}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition"
+                className="px-3 sm:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition text-sm"
               >
                 Upload Video
               </button>
@@ -242,7 +268,7 @@ function Dashboard() {
                   setIsUpdateMode(true);
                   setIsDeleteMode(false);
                 }}
-                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-500 transition"
+                className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-500 transition text-sm"
               >
                 Update Video
               </button>
@@ -251,7 +277,7 @@ function Dashboard() {
                   setIsDeleteMode(true);
                   setIsUpdateMode(false);
                 }}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 transition"
+                className="px-3 sm:px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm"
               >
                 Delete Video
               </button>
@@ -259,12 +285,12 @@ function Dashboard() {
           </nav>
 
           {isUpdateMode && !editingVideo && (
-            <p className="text-yellow-400 mb-4">
+            <p className="text-yellow-400 mb-4 text-sm">
               Select the video you want to edit
             </p>
           )}
           {isDeleteMode && !deletingVideo && (
-            <p className="text-yellow-400 mb-4">
+            <p className="text-yellow-400 mb-4 text-sm">
               Select the video you want to delete
             </p>
           )}
@@ -274,7 +300,7 @@ function Dashboard() {
           ) : videos.length === 0 ? (
             <p className="text-gray-400">No videos found.</p>
           ) : (
-            <ul className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {videos.map((video) => (
                 <li
                   key={video._id}
@@ -290,17 +316,16 @@ function Dashboard() {
                   <img
                     src={video.thumbnail}
                     alt={video.title}
-                    className="w-full h-40 object-cover rounded-t-md"
+                    className="w-full h-32 sm:h-40 object-cover rounded-t-md"
                   />
                   <div className="p-3">
-                    <h3 className="text-md font-semibold text-white">
+                    <h3 className="text-sm sm:text-md font-semibold text-white">
                       {video.title}
                     </h3>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-xs sm:text-sm text-gray-400">
                       {video.owner?.username} •{" "}
                       {new Date(video.createdAt).toLocaleDateString()}
                     </p>
-                    <p className="text-gray-300">{video.totalLikes} Likes</p>
                   </div>
                 </li>
               ))}
@@ -312,73 +337,77 @@ function Dashboard() {
             <button
               onClick={() => fetchVideos(page - 1)}
               disabled={page <= 1}
-              className="px-4 py-2 bg-gray-700 text-gray-300 rounded disabled:opacity-50 hover:bg-gray-600"
+              className="px-3 sm:px-4 py-2 bg-gray-700 text-gray-300 rounded disabled:opacity-50 hover:bg-gray-600 text-sm"
             >
               Prev
             </button>
-            <p className="text-gray-400">
+            <p className="text-gray-400 text-sm">
               Page {page} of {totalPages}
             </p>
             <button
               onClick={() => fetchVideos(page + 1)}
               disabled={page >= totalPages}
-              className="px-4 py-2 bg-gray-700 text-gray-300 rounded disabled:opacity-50 hover:bg-gray-600"
+              className="px-3 sm:px-4 py-2 bg-gray-700 text-gray-300 rounded disabled:opacity-50 hover:bg-gray-600 text-sm"
             >
               Next
             </button>
           </div>
         </div>
-      </div>
+      </main>
 
       {/* Edit Modal */}
       {editingVideo && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-          <div className="bg-gray-800 p-6 rounded-lg w-full max-w-lg">
-            <h2 className="text-xl font-bold mb-4 text-white">
-              Edit Video - {editingVideo.title}
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4">
+          <div className="bg-gray-900 p-4 sm:p-6 rounded-xl w-full max-w-md sm:max-w-lg shadow-2xl border border-gray-700">
+            <h2 className="text-lg sm:text-xl font-bold mb-4 text-white">
+              Edit Video
             </h2>
             <form onSubmit={handleUpdateSubmit} className="space-y-4">
               <input
                 type="text"
+                name="title"
+                placeholder="Title"
                 value={editForm.title}
                 onChange={(e) =>
                   setEditForm({ ...editForm, title: e.target.value })
                 }
-                placeholder="Title"
-                className="w-full p-2 rounded bg-gray-700 text-white"
+                className="w-full border border-gray-700 bg-gray-800 text-white p-3 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:outline-none text-sm"
+                required
               />
               <textarea
+                name="description"
+                placeholder="Description"
                 value={editForm.description}
                 onChange={(e) =>
                   setEditForm({ ...editForm, description: e.target.value })
                 }
-                placeholder="Description"
-                className="w-full p-2 rounded bg-gray-700 text-white"
+                className="w-full border border-gray-700 bg-gray-800 text-white p-3 rounded-lg h-24 resize-none focus:ring-2 focus:ring-indigo-600 focus:outline-none text-sm"
               />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setThumbnailFile(e.target.files[0])}
-                className="w-full text-gray-300"
-              />
-
-              <div className="flex justify-end space-x-3">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setEditingVideo(null);
-                    setIsUpdateMode(false);
-                  }}
-                  className="px-4 py-2 bg-gray-600 text-white rounded"
-                >
-                  Cancel
-                </button>
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-300">
+                  New Thumbnail (optional)
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setThumbnailFile(e.target.files[0])}
+                  className="w-full border border-gray-700 bg-gray-800 text-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:outline-none text-sm"
+                />
+              </div>
+              <div className="flex gap-2">
                 <button
                   type="submit"
                   disabled={updating}
-                  className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-500"
+                  className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-medium transition disabled:opacity-50 text-sm"
                 >
-                  {updating ? "Updating..." : "Save Changes"}
+                  {updating ? "Updating..." : "Update"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditingVideo(null)}
+                  className="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-lg font-medium transition text-sm"
+                >
+                  Cancel
                 </button>
               </div>
             </form>
@@ -386,32 +415,30 @@ function Dashboard() {
         </div>
       )}
 
-      {/* Delete Modal */}
+      {/* Delete Confirmation Modal */}
       {deletingVideo && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-          <div className="bg-gray-800 p-6 rounded-lg w-full max-w-md text-center">
-            <h2 className="text-xl font-bold mb-4 text-white">
-              Delete Video - {deletingVideo.title}
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4">
+          <div className="bg-gray-900 p-4 sm:p-6 rounded-xl w-full max-w-md shadow-2xl border border-gray-700">
+            <h2 className="text-lg sm:text-xl font-bold mb-4 text-white">
+              Delete Video
             </h2>
-            <p className="text-gray-300 mb-6">
-              Are you sure you want to permanently delete this video?
+            <p className="text-gray-300 mb-6 text-sm">
+              Are you sure you want to delete "{deletingVideo.title}"? This action
+              cannot be undone.
             </p>
-            <div className="flex justify-center space-x-4">
-              <button
-                onClick={() => {
-                  setDeletingVideo(null);
-                  setIsDeleteMode(false);
-                }}
-                className="px-4 py-2 bg-gray-600 text-white rounded"
-              >
-                Cancel
-              </button>
+            <div className="flex gap-2">
               <button
                 onClick={handleDeleteSubmit}
                 disabled={deleting}
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-500"
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-medium transition disabled:opacity-50 text-sm"
               >
                 {deleting ? "Deleting..." : "Delete"}
+              </button>
+              <button
+                onClick={() => setDeletingVideo(null)}
+                className="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-lg font-medium transition text-sm"
+              >
+                Cancel
               </button>
             </div>
           </div>
@@ -420,28 +447,33 @@ function Dashboard() {
 
       {/* Video Player Modal */}
       {playingVideo && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
-          <div className="bg-gray-900 p-6 rounded-lg w-[800px] max-w-full relative">
-            <button
-              onClick={() => setPlayingVideo(null)}
-              className="absolute top-3 right-3 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-500"
-            >
-              ✕
-            </button>
-            <h2 className="text-xl font-bold mb-4 text-white text-center">
-              {playingVideo.title}
-            </h2>
-            <div className="flex justify-center">
+        <div className="fixed inset-0 bg-black bg-opacity-90 flex justify-center items-center z-50 p-4">
+          <div className="w-full max-w-4xl">
+            <div className="relative">
+              <button
+                onClick={() => setPlayingVideo(null)}
+                className="absolute top-4 right-4 bg-gray-800 hover:bg-gray-700 text-white p-2 rounded-lg z-10"
+              >
+                ✕
+              </button>
               <video
-                src={playingVideo.videoFile}
                 controls
+                className="w-full h-auto max-h-[80vh] rounded-lg"
                 autoPlay
-                className="rounded-lg max-h-[450px] w-auto"
-              />
+              >
+                <source src={playingVideo.videoFile} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
-            <p className="text-gray-300 mt-3 text-center">
-              {playingVideo.description}
-            </p>
+            <div className="mt-4 text-center">
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
+                {playingVideo.title}
+              </h3>
+              <p className="text-gray-400 text-sm">
+                {playingVideo.owner?.username} •{" "}
+                {new Date(playingVideo.createdAt).toLocaleDateString()}
+              </p>
+            </div>
           </div>
         </div>
       )}
