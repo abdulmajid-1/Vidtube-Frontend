@@ -109,7 +109,8 @@ function Dashboard() {
 
       await axios.patch(
         `https://vidtube-backend-2.onrender.com/api/v1/videos/updateVideo/${editingVideo._id}`,
-        data
+        data,
+        { withCredentials: true }
       );
       await fetchVideos(page);
 
@@ -134,7 +135,8 @@ function Dashboard() {
     try {
       setDeleting(true);
       await axios.delete(
-        `https://vidtube-backend-2.onrender.com/api/v1/videos/delete/${deletingVideo._id}`
+        `https://vidtube-backend-2.onrender.com/api/v1/videos/delete/${deletingVideo._id}`,
+        { withCredentials: true }
       );
       await fetchVideos(page);
 

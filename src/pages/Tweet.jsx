@@ -17,7 +17,8 @@ function Tweet() {
   const checkAuth = async () => {
     try {
       const res = await axios.get(
-        "https://vidtube-backend-2.onrender.com/api/v1/users/current-user"
+        "https://vidtube-backend-2.onrender.com/api/v1/users/current-user",
+        { withCredentials: true }
       );
       if (!res.data.success) {
         navigate("/login");
@@ -34,7 +35,8 @@ function Tweet() {
   const getAllTweets = async () => {
     try {
       const res = await axios.get(
-        "https://vidtube-backend-2.onrender.com/api/v1/tweets/getAllTweets"
+        "https://vidtube-backend-2.onrender.com/api/v1/tweets/getAllTweets",
+        { withCredentials: true }
       );
       setTweets(res.data.data.tweets || []);
     } catch (error) {
@@ -52,6 +54,7 @@ function Tweet() {
         "https://vidtube-backend-2.onrender.com/api/v1/tweets/addTweet",
         {
           content: newTweet,
+          withCredentials: true,
         }
       );
 
@@ -66,7 +69,8 @@ function Tweet() {
   const deleteTweet = async (id) => {
     try {
       await axios.delete(
-        `https://vidtube-backend-2.onrender.com/api/v1/tweets/deleteTweet/${id}`
+        `https://vidtube-backend-2.onrender.com/api/v1/tweets/deleteTweet/${id}`,
+        { withCredentials: true }
       );
       setTweets(tweets.filter((tweet) => tweet._id !== id));
     } catch (error) {
@@ -82,6 +86,7 @@ function Tweet() {
         `https://vidtube-backend-2.onrender.com/api/v1/tweets/updateTweet/${editTweetId}`,
         {
           content: editTweetContent,
+          withCredentials: true,
         }
       );
 

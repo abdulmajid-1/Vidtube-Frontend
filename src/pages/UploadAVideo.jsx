@@ -81,7 +81,8 @@ function UploadAVideo() {
     try {
       await axios.post(
         "https://vidtube-backend-2.onrender.com/api/v1/videos/upload-video",
-        data
+        data,
+        { withCredentials: true }
       );
       note("success", "Video uploaded successfully");
       setFormData({ title: "", description: "" });

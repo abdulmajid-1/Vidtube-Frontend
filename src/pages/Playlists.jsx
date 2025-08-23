@@ -125,7 +125,8 @@ function Playlists() {
     try {
       setVideosLoading(true);
       const res = await axios.get(
-        `https://vidtube-backend-2.onrender.com/api/v1/videos/getAll?page=${pageNum}`
+        `https://vidtube-backend-2.onrender.com/api/v1/videos/getAll?page=${pageNum}`,
+        { withCredentials: true }
       );
       setAllVideos(res.data?.data?.videos || []);
       setVideosPage(res.data?.data?.currentPage || 1);
