@@ -102,7 +102,7 @@ function UploadAVideo() {
       <nav className="bg-blue-600 text-white px-6 py-4 flex justify-between items-center shadow-md">
         <h1 className="text-lg font-bold">Video Manager</h1>
         <div className="flex items-center gap-4">
-          <span className="text-sm">Hi, {currentUsername || "User"} 👋</span>
+          <span className="text-sm">Hi, {currentUsername || "User"} </span>
           <button
             onClick={() => navigate("/dashboard")}
             className="bg-white text-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition"

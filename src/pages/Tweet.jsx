@@ -54,8 +54,8 @@ function Tweet() {
         "https://vidtube-backend-2.onrender.com/api/v1/tweets/addTweet",
         {
           content: newTweet,
-          withCredentials: true,
-        }
+        },
+        { withCredentials: true }
       );
 
       setNewTweet("");
@@ -86,6 +86,8 @@ function Tweet() {
         `https://vidtube-backend-2.onrender.com/api/v1/tweets/updateTweet/${editTweetId}`,
         {
           content: editTweetContent,
+        },
+        {
           withCredentials: true,
         }
       );
