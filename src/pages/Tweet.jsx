@@ -16,7 +16,9 @@ function Tweet() {
   //  Check if user is logged in
   const checkAuth = async () => {
     try {
-      const res = await axios.get("/api/v1/users/current-user");
+      const res = await axios.get(
+        "https://vidtube-backend-2.onrender.com/api/v1/users/current-user"
+      );
       if (!res.data.success) {
         navigate("/login");
       }
@@ -31,7 +33,9 @@ function Tweet() {
   //  Fetch all tweets
   const getAllTweets = async () => {
     try {
-      const res = await axios.get("/api/v1/tweets/getAllTweets");
+      const res = await axios.get(
+        "https://vidtube-backend-2.onrender.com/api/v1/tweets/getAllTweets"
+      );
       setTweets(res.data.data.tweets || []);
     } catch (error) {
       console.error("Error fetching tweets:", error);
@@ -44,9 +48,12 @@ function Tweet() {
   const addTweet = async () => {
     if (!newTweet.trim()) return;
     try {
-      await axios.post("/api/v1/tweets/addTweet", {
-        content: newTweet,
-      });
+      await axios.post(
+        "https://vidtube-backend-2.onrender.com/api/v1/tweets/addTweet",
+        {
+          content: newTweet,
+        }
+      );
 
       setNewTweet("");
       getAllTweets(); //  Re-fetch tweets from DB
@@ -58,7 +65,9 @@ function Tweet() {
   //  Delete Tweet
   const deleteTweet = async (id) => {
     try {
-      await axios.delete(`/api/v1/tweets/deleteTweet/${id}`);
+      await axios.delete(
+        `https://vidtube-backend-2.onrender.com/api/v1/tweets/deleteTweet/${id}`
+      );
       setTweets(tweets.filter((tweet) => tweet._id !== id));
     } catch (error) {
       console.error("Error deleting tweet:", error);
@@ -69,9 +78,12 @@ function Tweet() {
   const updateTweet = async () => {
     if (!editTweetContent.trim()) return;
     try {
-      await axios.patch(`/api/v1/tweets/updateTweet/${editTweetId}`, {
-        content: editTweetContent,
-      });
+      await axios.patch(
+        `https://vidtube-backend-2.onrender.com/api/v1/tweets/updateTweet/${editTweetId}`,
+        {
+          content: editTweetContent,
+        }
+      );
 
       setEditTweetId(null);
       setEditTweetContent("");

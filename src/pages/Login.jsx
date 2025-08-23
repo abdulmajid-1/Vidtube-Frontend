@@ -23,7 +23,7 @@ function Login() {
     try {
       setLoading(true);
       const res = await axios.post(
-        "/api/v1/users/login",
+        "https://vidtube-backend-2.onrender.com/api/v1/users/login",
         {
           email: formData.email,
           username: formData.username,

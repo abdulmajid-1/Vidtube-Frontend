@@ -34,7 +34,7 @@ function Playlists() {
     try {
       setLoading(true);
       const res = await axios.get(
-        `/api/v1/playlists/userPlaylist?page=${pageNum}&limit=9`,
+        `https://vidtube-backend-2.onrender.com/api/v1/playlists/userPlaylist?page=${pageNum}&limit=9`,
         { withCredentials: true }
       );
       setPlaylists(res.data?.data?.playlists || []);
@@ -51,7 +51,7 @@ function Playlists() {
     try {
       setDetailLoading(true);
       const res = await axios.get(
-        `/api/v1/playlists/getPlaylistById/${playlistId}`,
+        `https://vidtube-backend-2.onrender.com/api/v1/playlists/getPlaylistById/${playlistId}`,
         { withCredentials: true }
       );
       setSelected(res.data?.data || null);
@@ -75,7 +75,7 @@ function Playlists() {
     if (!newName.trim() || !newDescription.trim()) return;
     try {
       await axios.post(
-        `/api/v1/playlists/createPlaylist`,
+        `https://vidtube-backend-2.onrender.com/api/v1/playlists/createPlaylist`,
         { name: newName, description: newDescription },
         { withCredentials: true }
       );
@@ -94,7 +94,7 @@ function Playlists() {
     if (!editForm.name.trim() && !editForm.description.trim()) return;
     try {
       await axios.patch(
-        `/api/v1/playlists/updatePlaylist/${selected._id}`,
+        `https://vidtube-backend-2.onrender.com/api/v1/playlists/updatePlaylist/${selected._id}`,
         editForm,
         { withCredentials: true }
       );
@@ -108,9 +108,12 @@ function Playlists() {
 
   const deletePlaylist = async (playlistId) => {
     try {
-      await axios.delete(`/api/v1/playlists/deletePlaylist/${playlistId}`, {
-        withCredentials: true,
-      });
+      await axios.delete(
+        `https://vidtube-backend-2.onrender.com/api/v1/playlists/deletePlaylist/${playlistId}`,
+        {
+          withCredentials: true,
+        }
+      );
       if (selected?._id === playlistId) setSelected(null);
       fetchPlaylists(page);
     } catch (err) {
@@ -121,7 +124,9 @@ function Playlists() {
   const fetchAllVideos = async (pageNum = 1) => {
     try {
       setVideosLoading(true);
-      const res = await axios.get(`/api/v1/videos/getAll?page=${pageNum}`);
+      const res = await axios.get(
+        `https://vidtube-backend-2.onrender.com/api/v1/videos/getAll?page=${pageNum}`
+      );
       setAllVideos(res.data?.data?.videos || []);
       setVideosPage(res.data?.data?.currentPage || 1);
       setVideosTotalPages(res.data?.data?.totalPages || 1);
@@ -153,7 +158,7 @@ function Playlists() {
     try {
       const requests = Array.from(selectedVideoIds).map((vid) =>
         axios.post(
-          `/api/v1/playlists/addVideoInPlaylist`,
+          `https://vidtube-backend-2.onrender.com/api/v1/playlists/addVideoInPlaylist`,
           { playlistId: selected._id, videoId: vid },
           { withCredentials: true }
         )
@@ -170,10 +175,13 @@ function Playlists() {
   const removeVideo = async (vid) => {
     if (!selected?._id || !vid) return;
     try {
-      await axios.delete(`/api/v1/playlists/removeVideoFromPlaylist`, {
-        data: { playlistId: selected._id, videoId: vid },
-        withCredentials: true,
-      });
+      await axios.delete(
+        `https://vidtube-backend-2.onrender.com/api/v1/playlists/removeVideoFromPlaylist`,
+        {
+          data: { playlistId: selected._id, videoId: vid },
+          withCredentials: true,
+        }
+      );
       fetchDetail(selected._id);
     } catch (err) {
       console.error("Remove video failed:", err.response?.data || err);

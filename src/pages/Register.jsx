@@ -34,7 +34,10 @@ function Register() {
 
     try {
       setLoading(true);
-      const res = await axios.post("/api/v1/users/register", data);
+      const res = await axios.post(
+        "https://vidtube-backend-2.onrender.com/api/v1/users/register",
+        data
+      );
       console.log("User registered:", res.data);
       navigate("/");
     } catch (err) {

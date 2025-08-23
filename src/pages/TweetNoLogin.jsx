@@ -12,7 +12,9 @@ function TweetNoLogin() {
   // Fetch all tweets
   const getAllTweets = async () => {
     try {
-      const res = await axios.get("/api/v1/tweets/getAllTweets");
+      const res = await axios.get(
+        "https://vidtube-backend-2.onrender.com/api/v1/tweets/getAllTweets"
+      );
 
       setTweets(res.data.data.tweets || []);
     } catch (error) {

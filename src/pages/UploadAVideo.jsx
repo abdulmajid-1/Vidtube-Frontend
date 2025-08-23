@@ -45,9 +45,12 @@ function UploadAVideo() {
   useEffect(() => {
     const init = async () => {
       try {
-        const res = await axios.get("/api/v1/users/current-user", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          "https://vidtube-backend-2.onrender.com/api/v1/users/current-user",
+          {
+            withCredentials: true,
+          }
+        );
         const user = res?.data?.data;
         if (!user?.username) {
           navigate("/login");
@@ -76,7 +79,10 @@ function UploadAVideo() {
     if (thumbnail) data.append("thumbnail", thumbnail);
 
     try {
-      await axios.post("/api/v1/videos/upload-video", data);
+      await axios.post(
+        "https://vidtube-backend-2.onrender.com/api/v1/videos/upload-video",
+        data
+      );
       note("success", "Video uploaded successfully");
       setFormData({ title: "", description: "" });
       setThumbnail(null);

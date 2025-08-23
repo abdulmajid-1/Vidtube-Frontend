@@ -28,7 +28,10 @@ export default function HomePage() {
   // Fetch videos with pagination
   const fetchVideos = async (pageNumber = 1) => {
     try {
-      const res = await axios.get(`/api/v1/videos/getAll?page=${pageNumber}`);
+      console.log("API URL from env:", import.meta.env.VITE_API_URL);
+      const res = await axios.get(
+        ` https://vidtube-backend-2.onrender.com/api/v1/videos/getAll?page=${pageNumber}`
+      );
       setVideos(res.data.data.videos || []);
       setTotalPages(res.data.data.totalPages || 1);
       setPage(pageNumber);
@@ -47,9 +50,12 @@ export default function HomePage() {
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await axios.get("/api/v1/users/current-user", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          " https://vidtube-backend-2.onrender.com/api/v1/users/current-user",
+          {
+            withCredentials: true,
+          }
+        );
         if (res.data?.success) {
           setIsLoggedIn(true);
           setCurrentUser(res.data.data);
@@ -69,7 +75,11 @@ export default function HomePage() {
 
   const handleLogout = async () => {
     try {
-      await axios.post("/api/v1/users/logout", {}, { withCredentials: true });
+      await axios.post(
+        " https://vidtube-backend-2.onrender.com/api/v1/users/logout",
+        {},
+        { withCredentials: true }
+      );
       setIsLoggedIn(false);
       setCurrentUser(null);
       navigate("/HomePage");
@@ -82,7 +92,7 @@ export default function HomePage() {
   const fetchComments = async (videoId) => {
     try {
       const res = await axios.get(
-        `/api/v1/comments/getVideoComments/${videoId}`,
+        ` https://vidtube-backend-2.onrender.com/api/v1/comments/getVideoComments/${videoId}`,
         { withCredentials: true }
       );
       setComments(res.data.data.comments || []);
@@ -97,7 +107,7 @@ export default function HomePage() {
     setCommentLoading(true);
     try {
       await axios.post(
-        `/api/v1/comments/addVideoComment/${selectedVideoId}`,
+        `https://vidtube-backend-2.onrender.com/api/v1/comments/addVideoComment/${selectedVideoId}`,
         { content: newComment },
         { withCredentials: true }
       );
@@ -122,7 +132,7 @@ export default function HomePage() {
     setCommentLoading(true);
     try {
       await axios.patch(
-        `/api/v1/comments/updateComment/${editCommentId}`,
+        `https://vidtube-backend-2.onrender.com/api/v1/comments/updateComment/${editCommentId}`,
         { content: editContent },
         { withCredentials: true }
       );
@@ -140,9 +150,12 @@ export default function HomePage() {
   const deleteComment = async (id) => {
     setCommentLoading(true);
     try {
-      await axios.delete(`/api/v1/comments/deleteComment/${id}`, {
-        withCredentials: true,
-      });
+      await axios.delete(
+        `https://vidtube-backend-2.onrender.com/api/v1/comments/deleteComment/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
       fetchComments(selectedVideoId);
     } catch (err) {
       console.error("Error deleting comment:", err);
@@ -157,7 +170,7 @@ export default function HomePage() {
       setVideoLoading(true);
       try {
         await axios.post(
-          `/api/v1/likes/toggle/v/${videoId}`,
+          `https://vidtube-backend-2.onrender.com/api/v1/likes/toggle/v/${videoId}`,
           {},
           { withCredentials: true }
         );
@@ -176,7 +189,7 @@ export default function HomePage() {
       setCommentLoading(true);
       try {
         await axios.post(
-          `/api/v1/likes/toggle/c/${commentId}`,
+          `https://vidtube-backend-2.onrender.com/api/v1/likes/toggle/c/${commentId}`,
           {},
           { withCredentials: true }
         );

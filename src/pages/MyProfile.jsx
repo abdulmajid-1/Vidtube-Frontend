@@ -46,9 +46,12 @@ export default function MyProfile() {
   useEffect(() => {
     const init = async () => {
       try {
-        const res = await axios.get("/api/v1/users/current-user", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          "https://vidtube-backend-2.onrender.com/api/v1/users/current-user",
+          {
+            withCredentials: true,
+          }
+        );
         const user = res?.data?.data;
         if (!user?.username) {
           navigate("/login");
@@ -73,9 +76,12 @@ export default function MyProfile() {
   // ---------------- API calls ----------------
   const fetchChannelProfile = async (username) => {
     try {
-      const res = await axios.get(`/api/v1/users/c/${username}`, {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `https://vidtube-backend-2.onrender.com/api/v1/users/c/${username}`,
+        {
+          withCredentials: true,
+        }
+      );
       const data = res?.data?.data;
       setChannel(data);
 
@@ -92,7 +98,11 @@ export default function MyProfile() {
 
   const handleLogout = async () => {
     try {
-      await axios.post("/api/v1/users/logout", {}, { withCredentials: true });
+      await axios.post(
+        "https://vidtube-backend-2.onrender.com/api/v1/users/logout",
+        {},
+        { withCredentials: true }
+      );
       navigate("/HomePage");
     } catch (err) {
       note("error", "Logout failed");
@@ -107,7 +117,7 @@ export default function MyProfile() {
     note("", "");
     try {
       await axios.post(
-        "/api/v1/users/change-password",
+        "https://vidtube-backend-2.onrender.com/api/v1/users/change-password",
         {
           oldPassword: passwordData.oldPassword,
           newPassword: passwordData.newPassword,
@@ -137,7 +147,7 @@ export default function MyProfile() {
     note("", "");
     try {
       await axios.patch(
-        "/api/v1/users/update-account",
+        "https://vidtube-backend-2.onrender.com/api/v1/users/update-account",
         {
           fullname: accountData.fullname,
           email: accountData.email,
@@ -172,10 +182,14 @@ export default function MyProfile() {
       const formData = new FormData();
       formData.append("avatar", avatarFile);
 
-      await axios.patch("/api/v1/users/avatar", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        withCredentials: true,
-      });
+      await axios.patch(
+        "https://vidtube-backend-2.onrender.com/api/v1/users/avatar",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        }
+      );
       note("success", "Avatar updated");
       setAvatarFile(null);
       if (currentUsername) await fetchChannelProfile(currentUsername);
@@ -201,10 +215,14 @@ export default function MyProfile() {
       const formData = new FormData();
       formData.append("coverImage", coverFile);
 
-      await axios.patch("/api/v1/users/cover-image", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        withCredentials: true,
-      });
+      await axios.patch(
+        "https://vidtube-backend-2.onrender.com/api/v1/users/cover-image",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        }
+      );
       note("success", "Cover image updated");
       setCoverFile(null);
       if (currentUsername) await fetchChannelProfile(currentUsername);
