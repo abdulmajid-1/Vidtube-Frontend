@@ -97,15 +97,15 @@ function UploadAVideo() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-900 text-gray-200">
       {/* Navbar */}
-      <nav className="bg-blue-600 text-white px-6 py-4 flex justify-between items-center shadow-md">
+      <nav className="bg-gray-800 text-white px-6 py-4 flex justify-between items-center shadow-md">
         <h1 className="text-lg font-bold">Video Manager</h1>
         <div className="flex items-center gap-4">
           <span className="text-sm">Hi, {currentUsername || "User"} </span>
           <button
             onClick={() => navigate("/dashboard")}
-            className="bg-white text-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition"
+            className="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-500 transition"
           >
             Dashboard
           </button>
@@ -114,8 +114,8 @@ function UploadAVideo() {
 
       {/* Main Content */}
       <div className="flex justify-center items-center p-6">
-        <div className="bg-white shadow-lg rounded-xl p-6 w-full max-w-lg">
-          <h2 className="text-2xl font-bold mb-6 text-gray-700 text-center">
+        <div className="bg-gray-800 shadow-lg rounded-xl p-6 w-full max-w-lg border border-gray-700">
+          <h2 className="text-2xl font-bold mb-6 text-white text-center">
             Upload Video
           </h2>
 
@@ -127,7 +127,7 @@ function UploadAVideo() {
               placeholder="Title"
               value={formData.title}
               onChange={handleChange}
-              className="border p-2 w-full rounded-md focus:ring-2 focus:ring-blue-400 outline-none"
+              className="border border-gray-700 bg-gray-900 text-white p-2 w-full rounded-md focus:ring-2 focus:ring-indigo-600 focus:outline-none placeholder-gray-400"
             />
 
             <textarea
@@ -135,12 +135,12 @@ function UploadAVideo() {
               placeholder="Description"
               value={formData.description}
               onChange={handleChange}
-              className="border p-2 w-full rounded-md h-24 resize-none focus:ring-2 focus:ring-blue-400 outline-none"
+              className="border border-gray-700 bg-gray-900 text-white p-2 w-full rounded-md h-24 resize-none focus:ring-2 focus:ring-indigo-600 focus:outline-none placeholder-gray-400"
             />
 
             {/* File inputs */}
             <div>
-              <label className="block text-sm font-medium mb-1">
+              <label className="block text-sm font-medium mb-1 text-gray-300">
                 Thumbnail
               </label>
               <input
@@ -148,19 +148,19 @@ function UploadAVideo() {
                 name="thumbnail"
                 accept="image/*"
                 onChange={handleFileChange}
-                className="mb-2"
+                className="mb-2 text-gray-300"
               />
               {thumbnail && (
                 <img
                   src={URL.createObjectURL(thumbnail)}
                   alt="Thumbnail Preview"
-                  className="w-32 h-32 object-cover rounded-lg border"
+                  className="w-32 h-32 object-cover rounded-lg border border-gray-700"
                 />
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">
+              <label className="block text-sm font-medium mb-1 text-gray-300">
                 Video File
               </label>
               <input
@@ -168,13 +168,13 @@ function UploadAVideo() {
                 name="videoFile"
                 accept="video/*"
                 onChange={handleFileChange}
-                className="mb-2"
+                className="mb-2 text-gray-300"
               />
               {videoFile && (
                 <video
                   controls
                   src={URL.createObjectURL(videoFile)}
-                  className="w-full rounded-lg border"
+                  className="w-full rounded-lg border border-gray-700"
                 />
               )}
             </div>
@@ -183,7 +183,7 @@ function UploadAVideo() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+              className="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-500 transition disabled:opacity-50"
             >
               {loading ? "Uploading..." : "Upload Video"}
             </button>
@@ -191,17 +191,17 @@ function UploadAVideo() {
 
           {/* Show notification */}
           {msg.text && (
-            <p
-              className={`mt-4 text-center font-medium ${
+            <div
+              className={`mt-4 p-3 rounded-lg border ${
                 msg.type === "success"
-                  ? "text-green-600"
+                  ? "bg-green-900/30 border-green-800 text-green-200"
                   : msg.type === "error"
-                  ? "text-red-600"
-                  : "text-gray-600"
+                  ? "bg-red-900/40 border-red-800 text-red-200"
+                  : "bg-yellow-900/30 border-yellow-800 text-yellow-200"
               }`}
             >
               {msg.text}
-            </p>
+            </div>
           )}
         </div>
       </div>

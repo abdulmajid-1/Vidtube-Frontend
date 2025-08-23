@@ -162,7 +162,9 @@ function Dashboard() {
     <div className="bg-gray-900 min-h-screen text-gray-200">
       {/* Navbar */}
       <nav className="bg-gray-800 px-6 py-4 flex justify-between items-center shadow">
-        <h1 className="text-xl font-bold text-white">My Dashboard</h1>
+        <h1 className="text-4xl font-Brush Script MT leading-none tracking-tight text-white">
+          My Dashboard
+        </h1>
         <div className="space-x-4">
           <button
             onClick={() => navigate("/MyProfile")}
@@ -192,7 +194,7 @@ function Dashboard() {
       </nav>
 
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
+        <h1 className="text-2xl font-bold mb-6">Stats</h1>
 
         {/* Stats */}
         {stats && (

@@ -134,7 +134,9 @@ function Tweet() {
     <div className="min-h-screen bg-gray-900 text-gray-200">
       {/* Navbar */}
       <nav className="bg-gray-800 px-6 py-4 flex justify-between items-center shadow">
-        <h1 className="text-xl font-bold text-white">Tweet App</h1>
+        <h1 className="text-4xl font-Brush Script MT leading-none tracking-tight text-white">
+          Tweets
+        </h1>
         <div className="space-x-4">
           <button
             onClick={() => navigate("/dashboard")}

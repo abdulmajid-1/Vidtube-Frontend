@@ -193,7 +193,9 @@ function Playlists() {
     <div className="bg-gray-900 min-h-screen text-gray-200">
       {/* Top bar */}
       <nav className="bg-gray-800 px-6 py-4 flex justify-between items-center shadow">
-        <h1 className="text-xl font-bold text-white">Playlists</h1>
+        <h1 className="text-4xl font-Brush Script MT leading-none tracking-tight text-white">
+          Playlists
+        </h1>
         <div className="space-x-2">
           <button
             onClick={() => navigate("/dashboard")}
