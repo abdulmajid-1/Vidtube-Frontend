@@ -188,36 +188,7 @@ function Dashboard() {
           >
             Playlists
           </button>
-          <button
-            onClick={() => navigate("/UploadAVideo")}
-            className="px-3 sm:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition text-sm sm:text-base"
-          >
-            Upload Video
-          </button>
-          <button
-            onClick={() => {
-              setIsUpdateMode(true);
-              setIsDeleteMode(false);
-            }}
-            className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-500 transition text-sm sm:text-base"
-          >
-            Update Video
-          </button>
-          <button
-            onClick={() => {
-              setIsDeleteMode(true);
-              setIsUpdateMode(false);
-            }}
-            className="px-3 sm:px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm sm:text-base"
-          >
-            Delete Video
-          </button>
-          <button
-            onClick={() => navigate("/Login")}
-            className="px-3 sm:px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm sm:text-base"
-          >
-            Logout
-          </button>
+         
         </div>
       </header>
 
