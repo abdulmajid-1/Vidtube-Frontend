@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import api from "../api.js";
 
 function TweetNoLogin() {
   const [loading, setLoading] = useState(true);

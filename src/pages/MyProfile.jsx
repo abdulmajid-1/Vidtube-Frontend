@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../api.js";
 
 export default function MyProfile() {
   const navigate = useNavigate();

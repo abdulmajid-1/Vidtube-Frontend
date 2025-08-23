@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../api.js";
 
 function Playlists() {
   const [playlists, setPlaylists] = useState([]);
@@ -32,7 +33,10 @@ function Playlists() {
   const fetchPlaylists = async (pageNum = 1) => {
     try {
       setLoading(true);
-      const res = await axios.get(`/api/v1/playlists/userPlaylist?page=${pageNum}&limit=9`, { withCredentials: true });
+      const res = await axios.get(
+        `/api/v1/playlists/userPlaylist?page=${pageNum}&limit=9`,
+        { withCredentials: true }
+      );
       setPlaylists(res.data?.data?.playlists || []);
       setPage(res.data?.data?.currentPage || 1);
       setTotalPages(res.data?.data?.totalPages || 1);
@@ -46,9 +50,15 @@ function Playlists() {
   const fetchDetail = async (playlistId) => {
     try {
       setDetailLoading(true);
-      const res = await axios.get(`/api/v1/playlists/getPlaylistById/${playlistId}`, { withCredentials: true });
+      const res = await axios.get(
+        `/api/v1/playlists/getPlaylistById/${playlistId}`,
+        { withCredentials: true }
+      );
       setSelected(res.data?.data || null);
-      setEditForm({ name: res.data?.data?.name || "", description: res.data?.data?.description || "" });
+      setEditForm({
+        name: res.data?.data?.name || "",
+        description: res.data?.data?.description || "",
+      });
     } catch (err) {
       console.error("Failed to fetch playlist:", err.response?.data || err);
     } finally {
@@ -64,7 +74,11 @@ function Playlists() {
     e.preventDefault();
     if (!newName.trim() || !newDescription.trim()) return;
     try {
-      await axios.post(`/api/v1/playlists/createPlaylist`, { name: newName, description: newDescription }, { withCredentials: true });
+      await axios.post(
+        `/api/v1/playlists/createPlaylist`,
+        { name: newName, description: newDescription },
+        { withCredentials: true }
+      );
       setCreating(false);
       setNewName("");
       setNewDescription("");
@@ -79,7 +93,11 @@ function Playlists() {
     if (!selected?._id) return;
     if (!editForm.name.trim() && !editForm.description.trim()) return;
     try {
-      await axios.patch(`/api/v1/playlists/updatePlaylist/${selected._id}`, editForm, { withCredentials: true });
+      await axios.patch(
+        `/api/v1/playlists/updatePlaylist/${selected._id}`,
+        editForm,
+        { withCredentials: true }
+      );
       await fetchDetail(selected._id);
       await fetchPlaylists(page);
       setEditOpen(false);
@@ -90,7 +108,9 @@ function Playlists() {
 
   const deletePlaylist = async (playlistId) => {
     try {
-      await axios.delete(`/api/v1/playlists/deletePlaylist/${playlistId}`, { withCredentials: true });
+      await axios.delete(`/api/v1/playlists/deletePlaylist/${playlistId}`, {
+        withCredentials: true,
+      });
       if (selected?._id === playlistId) setSelected(null);
       fetchPlaylists(page);
     } catch (err) {
@@ -132,7 +152,11 @@ function Playlists() {
     if (!selected?._id || selectedVideoIds.size === 0) return;
     try {
       const requests = Array.from(selectedVideoIds).map((vid) =>
-        axios.post(`/api/v1/playlists/addVideoInPlaylist`, { playlistId: selected._id, videoId: vid }, { withCredentials: true })
+        axios.post(
+          `/api/v1/playlists/addVideoInPlaylist`,
+          { playlistId: selected._id, videoId: vid },
+          { withCredentials: true }
+        )
       );
       await Promise.all(requests);
       setSelectVideoOpen(false);
@@ -162,8 +186,18 @@ function Playlists() {
       <nav className="bg-gray-800 px-6 py-4 flex justify-between items-center shadow">
         <h1 className="text-xl font-bold text-white">Playlists</h1>
         <div className="space-x-2">
-          <button onClick={() => navigate("/dashboard")} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition">Dashboard</button>
-          <button onClick={() => setCreating(true)} className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500 transition">New Playlist</button>
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition"
+          >
+            Dashboard
+          </button>
+          <button
+            onClick={() => setCreating(true)}
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500 transition"
+          >
+            New Playlist
+          </button>
         </div>
       </nav>
 
@@ -179,13 +213,31 @@ function Playlists() {
             ) : (
               <ul className="space-y-3">
                 {playlists.map((pl) => (
-                  <li key={pl._id} className={`p-3 rounded-lg cursor-pointer ${selected?._id === pl._id ? "bg-gray-700" : "bg-gray-900 hover:bg-gray-800"}`} onClick={() => fetchDetail(pl._id)}>
+                  <li
+                    key={pl._id}
+                    className={`p-3 rounded-lg cursor-pointer ${
+                      selected?._id === pl._id
+                        ? "bg-gray-700"
+                        : "bg-gray-900 hover:bg-gray-800"
+                    }`}
+                    onClick={() => fetchDetail(pl._id)}
+                  >
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="font-semibold text-white">{pl.name}</p>
-                        <p className="text-sm text-gray-400 line-clamp-1">{pl.description}</p>
+                        <p className="text-sm text-gray-400 line-clamp-1">
+                          {pl.description}
+                        </p>
                       </div>
-                      <button onClick={(e) => { e.stopPropagation(); deletePlaylist(pl._id); }} className="px-3 py-1 bg-red-600 hover:bg-red-500 text-white rounded">Delete</button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deletePlaylist(pl._id);
+                        }}
+                        className="px-3 py-1 bg-red-600 hover:bg-red-500 text-white rounded"
+                      >
+                        Delete
+                      </button>
                     </div>
                   </li>
                 ))}
@@ -194,9 +246,23 @@ function Playlists() {
 
             {/* Pagination */}
             <div className="flex justify-between items-center mt-4">
-              <button onClick={() => fetchPlaylists(page - 1)} disabled={page <= 1} className="px-3 py-1.5 bg-gray-700 text-gray-300 rounded disabled:opacity-50">Prev</button>
-              <p className="text-gray-400">Page {page} of {totalPages}</p>
-              <button onClick={() => fetchPlaylists(page + 1)} disabled={page >= totalPages} className="px-3 py-1.5 bg-gray-700 text-gray-300 rounded disabled:opacity-50">Next</button>
+              <button
+                onClick={() => fetchPlaylists(page - 1)}
+                disabled={page <= 1}
+                className="px-3 py-1.5 bg-gray-700 text-gray-300 rounded disabled:opacity-50"
+              >
+                Prev
+              </button>
+              <p className="text-gray-400">
+                Page {page} of {totalPages}
+              </p>
+              <button
+                onClick={() => fetchPlaylists(page + 1)}
+                disabled={page >= totalPages}
+                className="px-3 py-1.5 bg-gray-700 text-gray-300 rounded disabled:opacity-50"
+              >
+                Next
+              </button>
             </div>
           </div>
         </div>
@@ -205,20 +271,36 @@ function Playlists() {
         <div className="lg:col-span-2">
           <div className="bg-gray-800 shadow rounded-lg p-5 min-h-[300px]">
             {!selected ? (
-              <p className="text-gray-400">Select a playlist to view details.</p>
+              <p className="text-gray-400">
+                Select a playlist to view details.
+              </p>
             ) : detailLoading ? (
               <p className="text-gray-400">Loading playlist…</p>
             ) : (
               <>
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h2 className="text-2xl font-bold text-white">{selected.name}</h2>
+                    <h2 className="text-2xl font-bold text-white">
+                      {selected.name}
+                    </h2>
                     <p className="text-gray-300 mt-1">{selected.description}</p>
-                    <p className="text-sm text-gray-400 mt-1">By {selected.owner?.username}</p>
+                    <p className="text-sm text-gray-400 mt-1">
+                      By {selected.owner?.username}
+                    </p>
                   </div>
                   <div className="space-x-2">
-                    <button onClick={() => setEditOpen(true)} className="px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded">Edit</button>
-                    <button onClick={openSelectVideos} className="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded">Add Video</button>
+                    <button
+                      onClick={() => setEditOpen(true)}
+                      className="px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={openSelectVideos}
+                      className="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded"
+                    >
+                      Add Video
+                    </button>
                   </div>
                 </div>
 
@@ -227,11 +309,27 @@ function Playlists() {
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {selected.videos.map((v) => (
                       <li key={v._id} className="bg-gray-900 rounded-lg p-3">
-                        <p className="font-semibold text-white line-clamp-1">{v.title}</p>
-                        <p className="text-sm text-gray-400 line-clamp-2">{v.description}</p>
+                        <p className="font-semibold text-white line-clamp-1">
+                          {v.title}
+                        </p>
+                        <p className="text-sm text-gray-400 line-clamp-2">
+                          {v.description}
+                        </p>
                         <div className="flex items-center justify-between mt-3">
-                          <a href={v.videoFile} target="_blank" rel="noreferrer" className="text-indigo-400 hover:text-indigo-300 text-sm">Open</a>
-                          <button onClick={() => removeVideo(v._id)} className="px-3 py-1.5 text-sm bg-gray-700 hover:bg-gray-600 text-white rounded">Remove</button>
+                          <a
+                            href={v.videoFile}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-indigo-400 hover:text-indigo-300 text-sm"
+                          >
+                            Open
+                          </a>
+                          <button
+                            onClick={() => removeVideo(v._id)}
+                            className="px-3 py-1.5 text-sm bg-gray-700 hover:bg-gray-600 text-white rounded"
+                          >
+                            Remove
+                          </button>
                         </div>
                       </li>
                     ))}
@@ -249,13 +347,36 @@ function Playlists() {
       {creating && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
           <div className="bg-gray-800 p-5 rounded-xl w-[420px]">
-            <h2 className="text-xl font-bold mb-3 text-white">Create Playlist</h2>
+            <h2 className="text-xl font-bold mb-3 text-white">
+              Create Playlist
+            </h2>
             <form onSubmit={createPlaylist} className="space-y-3">
-              <input value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Name" className="w-full bg-gray-900 text-white rounded px-3 py-2 border border-gray-700" />
-              <textarea value={newDescription} onChange={(e) => setNewDescription(e.target.value)} placeholder="Description" className="w-full bg-gray-900 text-white rounded px-3 py-2 border border-gray-700" />
+              <input
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                placeholder="Name"
+                className="w-full bg-gray-900 text-white rounded px-3 py-2 border border-gray-700"
+              />
+              <textarea
+                value={newDescription}
+                onChange={(e) => setNewDescription(e.target.value)}
+                placeholder="Description"
+                className="w-full bg-gray-900 text-white rounded px-3 py-2 border border-gray-700"
+              />
               <div className="flex justify-end gap-2">
-                <button type="button" onClick={() => setCreating(false)} className="px-3 py-2 bg-gray-700 text-white rounded">Cancel</button>
-                <button type="submit" className="px-3 py-2 bg-green-600 hover:bg-green-500 text-white rounded">Create</button>
+                <button
+                  type="button"
+                  onClick={() => setCreating(false)}
+                  className="px-3 py-2 bg-gray-700 text-white rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-3 py-2 bg-green-600 hover:bg-green-500 text-white rounded"
+                >
+                  Create
+                </button>
               </div>
             </form>
           </div>
@@ -268,11 +389,36 @@ function Playlists() {
           <div className="bg-gray-800 p-5 rounded-xl w-[420px]">
             <h2 className="text-xl font-bold mb-3 text-white">Edit Playlist</h2>
             <form onSubmit={updatePlaylist} className="space-y-3">
-              <input value={editForm.name} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} placeholder="Name" className="w-full bg-gray-900 text-white rounded px-3 py-2 border border-gray-700" />
-              <textarea value={editForm.description} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} placeholder="Description" className="w-full bg-gray-900 text-white rounded px-3 py-2 border border-gray-700" />
+              <input
+                value={editForm.name}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, name: e.target.value })
+                }
+                placeholder="Name"
+                className="w-full bg-gray-900 text-white rounded px-3 py-2 border border-gray-700"
+              />
+              <textarea
+                value={editForm.description}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, description: e.target.value })
+                }
+                placeholder="Description"
+                className="w-full bg-gray-900 text-white rounded px-3 py-2 border border-gray-700"
+              />
               <div className="flex justify-end gap-2">
-                <button type="button" onClick={() => setEditOpen(false)} className="px-3 py-2 bg-gray-700 text-white rounded">Cancel</button>
-                <button type="submit" className="px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded">Save</button>
+                <button
+                  type="button"
+                  onClick={() => setEditOpen(false)}
+                  className="px-3 py-2 bg-gray-700 text-white rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded"
+                >
+                  Save
+                </button>
               </div>
             </form>
           </div>
@@ -284,8 +430,15 @@ function Playlists() {
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
           <div className="bg-gray-800 p-5 rounded-xl w-[720px] max-h-[80vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-xl font-bold text-white">Add Videos to "{selected.name}"</h2>
-              <button onClick={() => setSelectVideoOpen(false)} className="px-3 py-1.5 bg-gray-700 text-white rounded">Close</button>
+              <h2 className="text-xl font-bold text-white">
+                Add Videos to "{selected.name}"
+              </h2>
+              <button
+                onClick={() => setSelectVideoOpen(false)}
+                className="px-3 py-1.5 bg-gray-700 text-white rounded"
+              >
+                Close
+              </button>
             </div>
 
             {videosLoading ? (
@@ -297,15 +450,37 @@ function Playlists() {
                 {allVideos.map((v) => {
                   const picked = selectedVideoIds.has(v._id);
                   return (
-                    <li key={v._id} className={`border ${picked ? "border-indigo-500" : "border-gray-700"} rounded-lg p-3 bg-gray-900`}>
+                    <li
+                      key={v._id}
+                      className={`border ${
+                        picked ? "border-indigo-500" : "border-gray-700"
+                      } rounded-lg p-3 bg-gray-900`}
+                    >
                       <div className="flex items-start gap-3">
-                        <img src={v.thumbnail} alt={v.title} className="w-24 h-16 object-cover rounded" />
+                        <img
+                          src={v.thumbnail}
+                          alt={v.title}
+                          className="w-24 h-16 object-cover rounded"
+                        />
                         <div className="flex-1">
-                          <p className="font-semibold text-white line-clamp-1">{v.title}</p>
-                          <p className="text-sm text-gray-400 line-clamp-2">{v.description}</p>
-                          <p className="text-xs text-gray-500">By {v.owner?.username}</p>
+                          <p className="font-semibold text-white line-clamp-1">
+                            {v.title}
+                          </p>
+                          <p className="text-sm text-gray-400 line-clamp-2">
+                            {v.description}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            By {v.owner?.username}
+                          </p>
                           <div className="mt-2">
-                            <button onClick={() => toggleVideoPick(v._id)} className={`px-3 py-1.5 text-sm rounded ${picked ? "bg-indigo-600 hover:bg-indigo-500 text-white" : "bg-gray-700 hover:bg-gray-600 text-white"}`}>
+                            <button
+                              onClick={() => toggleVideoPick(v._id)}
+                              className={`px-3 py-1.5 text-sm rounded ${
+                                picked
+                                  ? "bg-indigo-600 hover:bg-indigo-500 text-white"
+                                  : "bg-gray-700 hover:bg-gray-600 text-white"
+                              }`}
+                            >
                               {picked ? "Selected" : "Select"}
                             </button>
                           </div>
@@ -319,15 +494,40 @@ function Playlists() {
 
             {/* Pagination for videos */}
             <div className="flex justify-between items-center mt-4">
-              <button onClick={() => fetchAllVideos(videosPage - 1)} disabled={videosPage <= 1} className="px-3 py-1.5 bg-gray-700 text-gray-300 rounded disabled:opacity-50">Prev</button>
-              <p className="text-gray-400">Page {videosPage} of {videosTotalPages}</p>
-              <button onClick={() => fetchAllVideos(videosPage + 1)} disabled={videosPage >= videosTotalPages} className="px-3 py-1.5 bg-gray-700 text-gray-300 rounded disabled:opacity-50">Next</button>
+              <button
+                onClick={() => fetchAllVideos(videosPage - 1)}
+                disabled={videosPage <= 1}
+                className="px-3 py-1.5 bg-gray-700 text-gray-300 rounded disabled:opacity-50"
+              >
+                Prev
+              </button>
+              <p className="text-gray-400">
+                Page {videosPage} of {videosTotalPages}
+              </p>
+              <button
+                onClick={() => fetchAllVideos(videosPage + 1)}
+                disabled={videosPage >= videosTotalPages}
+                className="px-3 py-1.5 bg-gray-700 text-gray-300 rounded disabled:opacity-50"
+              >
+                Next
+              </button>
             </div>
 
             {/* Actions */}
             <div className="flex justify-end gap-2 mt-4">
-              <button onClick={() => setSelectVideoOpen(false)} className="px-3 py-2 bg-gray-700 text-white rounded">Cancel</button>
-              <button onClick={addPickedVideos} disabled={selectedVideoIds.size === 0} className="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded disabled:opacity-50">Add Selected</button>
+              <button
+                onClick={() => setSelectVideoOpen(false)}
+                className="px-3 py-2 bg-gray-700 text-white rounded"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={addPickedVideos}
+                disabled={selectedVideoIds.size === 0}
+                className="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded disabled:opacity-50"
+              >
+                Add Selected
+              </button>
             </div>
           </div>
         </div>
