@@ -32,7 +32,9 @@ function Dashboard() {
   // Check if user is logged in
   const checkAuth = async () => {
     try {
-      const res = await axios.get("/api/v1/users/current-user");
+      const res = await axios.get(
+        "https://vidtube-backend-2.onrender.com/api/v1/users/current-user"
+      );
       if (!res.data.success) {
         navigate("/login");
       }
@@ -45,7 +47,9 @@ function Dashboard() {
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get("/api/v1/dashboard/stats");
+      const res = await axios.get(
+        "https://vidtube-backend-2.onrender.com/api/v1/dashboard/stats"
+      );
       setStats(res.data.data);
     } catch (err) {
       console.error("Failed to load stats:", err.response?.data || err);
@@ -55,7 +59,9 @@ function Dashboard() {
   const fetchVideos = async (pageNum = 1) => {
     try {
       setLoading(true);
-      const res = await axios.get(`/api/v1/dashboard/videos?page=${pageNum}`);
+      const res = await axios.get(
+        `https://vidtube-backend-2.onrender.com/api/v1/dashboard/videos?page=${pageNum}`
+      );
       setVideos(res.data.data.videos);
       setPage(res.data.data.currentPage);
       setTotalPages(res.data.data.totalPages);
@@ -98,7 +104,10 @@ function Dashboard() {
       data.append("description", editForm.description);
       if (thumbnailFile) data.append("thumbnail", thumbnailFile);
 
-      await axios.patch(`/api/v1/videos/updateVideo/${editingVideo._id}`, data);
+      await axios.patch(
+        `https://vidtube-backend-2.onrender.com/api/v1/videos/updateVideo/${editingVideo._id}`,
+        data
+      );
       await fetchVideos(page);
 
       // Reset
@@ -121,7 +130,9 @@ function Dashboard() {
 
     try {
       setDeleting(true);
-      await axios.delete(`/api/v1/videos/delete/${deletingVideo._id}`);
+      await axios.delete(
+        `https://vidtube-backend-2.onrender.com/api/v1/videos/delete/${deletingVideo._id}`
+      );
       await fetchVideos(page);
 
       // Reset
