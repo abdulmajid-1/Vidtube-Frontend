@@ -301,6 +301,7 @@ export default function HomePage() {
                     <video
                       controls
                       playsInline //  important for iOS Safari
+                      muted
                       className="w-full h-48 sm:h-64 rounded-md mb-3"
                     >
                       <source src={video.videoFile} type="video/mp4" />
