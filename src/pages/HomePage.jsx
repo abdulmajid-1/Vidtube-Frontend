@@ -298,10 +298,15 @@ export default function HomePage() {
               >
                 {selectedVideo === video._id ? (
                   <div className="p-3 sm:p-4">
-                    <video controls className="w-full h-48 sm:h-64 rounded-md mb-3">
+                    <video
+                      controls
+                      playsInline //  important for iOS Safari
+                      className="w-full h-48 sm:h-64 rounded-md mb-3"
+                    >
                       <source src={video.videoFile} type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
+
                     <h3 className="text-base sm:text-lg font-bold mb-2 text-white">
                       {video.title}
                     </h3>
@@ -458,7 +463,9 @@ export default function HomePage() {
                                 : ""}
                             </span>
                           </div>
-                          <p className="text-gray-200 mb-2 text-sm">{c.content}</p>
+                          <p className="text-gray-200 mb-2 text-sm">
+                            {c.content}
+                          </p>
 
                           {/* Restrict Update/Delete to owner */}
                           {isLoggedIn &&
