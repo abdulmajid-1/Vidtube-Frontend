@@ -10,18 +10,25 @@ function Tweet() {
   const [newTweet, setNewTweet] = useState("");
   const [editTweetId, setEditTweetId] = useState(null);
   const [editTweetContent, setEditTweetContent] = useState("");
-  const [note, setNote] = useState(null); // ✅ message + type
-  const [currentUser, setCurrentUser] = useState(null); // ✅ store logged-in user
+  const [note, setNote] = useState(null); // Notification message and type
+  const [currentUser, setCurrentUser] = useState(null); // Store logged-in user
 
   const navigate = useNavigate();
 
-  // Function to show a styled note
+  /**
+   * Display a styled notification message
+   * @param {string} message - Notification message
+   * @param {string} type - Type of notification (success, error, info)
+   */
   const showNote = (message, type = "info") => {
     setNote({ message, type });
     setTimeout(() => setNote(null), 3000);
   };
 
-  //  Check if user is logged in
+  /**
+   * Check if user is authenticated
+   * Redirects to login if not authenticated
+   */
   const checkAuth = async () => {
     try {
       const res = await axios.get(
@@ -31,7 +38,7 @@ function Tweet() {
       if (!res.data.success) {
         navigate("/login");
       } else {
-        setCurrentUser(res.data.data); // ✅ store user data
+        setCurrentUser(res.data.data); // Store user data
       }
     } catch (err) {
       console.log("error checking auth", err);
@@ -41,7 +48,9 @@ function Tweet() {
     }
   };
 
-  //  Fetch all tweets
+  /**
+   * Fetch all tweets from the API
+   */
   const getAllTweets = async () => {
     try {
       const res = await axios.get(
@@ -51,13 +60,15 @@ function Tweet() {
       setTweets(res.data.data.tweets || []);
     } catch (error) {
       console.error("Error fetching tweets:", error);
-      showNote("Error fetching tweets ❌", "error");
+      showNote("Error fetching tweets", "error");
     } finally {
       setLoading(false);
     }
   };
 
-  //  Add Tweet
+  /**
+   * Add a new tweet
+   */
   const addTweet = async () => {
     if (!newTweet.trim()) return;
     try {
@@ -71,14 +82,17 @@ function Tweet() {
 
       setNewTweet("");
       getAllTweets();
-      showNote("✅ Tweet added successfully!", "success");
+      showNote("Tweet added successfully!", "success");
     } catch (error) {
       console.error("Error adding tweet:", error);
-      showNote("❌ Error adding tweet", "error");
+      showNote("Error adding tweet", "error");
     }
   };
 
-  //  Delete Tweet
+  /**
+   * Delete a tweet
+   * @param {string} id - Tweet ID to delete
+   */
   const deleteTweet = async (id) => {
     try {
       await axios.delete(
@@ -86,14 +100,16 @@ function Tweet() {
         { withCredentials: true }
       );
       setTweets(tweets.filter((tweet) => tweet._id !== id));
-      showNote("🗑️ Tweet deleted successfully!", "success");
+      showNote("Tweet deleted successfully!", "success");
     } catch (error) {
       console.error("Error deleting tweet:", error);
-      showNote("❌ Error deleting tweet", "error");
+      showNote("Error deleting tweet", "error");
     }
   };
 
-  //  Update Tweet
+  /**
+   * Update an existing tweet
+   */
   const updateTweet = async () => {
     if (!editTweetContent.trim()) return;
     try {
@@ -110,10 +126,10 @@ function Tweet() {
       setEditTweetId(null);
       setEditTweetContent("");
       getAllTweets();
-      showNote("✏️ Tweet updated successfully!", "success");
+      showNote("Tweet updated successfully!", "success");
     } catch (error) {
       console.error("Error updating tweet:", error);
-      showNote("❌ Error updating tweet", "error");
+      showNote("Error updating tweet", "error");
     }
   };
 
@@ -132,7 +148,7 @@ function Tweet() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200">
-      {/* Navbar */}
+      {/* Navigation Bar */}
       <nav className="bg-gray-800 px-6 py-4 flex justify-between items-center shadow">
         <h1 className="text-4xl font-Brush Script MT leading-none tracking-tight text-white">
           Tweets
@@ -153,7 +169,7 @@ function Tweet() {
         </div>
       </nav>
 
-      {/* ✅ Notification Note */}
+      {/* Notification Display */}
       {note && (
         <div
           className={`fixed top-5 right-5 px-5 py-3 rounded-xl shadow-lg z-50 transform transition-all duration-500 ${
@@ -168,7 +184,7 @@ function Tweet() {
         </div>
       )}
 
-      {/* Add Tweet Form */}
+      {/* Tweet Creation Form */}
       <div className="max-w-2xl mx-auto p-4 sm:p-6">
         <div className="bg-gray-800 border border-gray-700 p-4 rounded-xl flex flex-col sm:flex-row gap-3">
           <input
@@ -187,7 +203,7 @@ function Tweet() {
         </div>
       </div>
 
-      {/* Tweets Section */}
+      {/* Tweets Feed */}
       <div className="max-w-2xl mx-auto p-4 sm:p-6 space-y-6">
         {tweets.length === 0 ? (
           <p className="text-center text-gray-400">No tweets found.</p>
@@ -197,7 +213,7 @@ function Tweet() {
               key={tweet._id}
               className="p-4 border border-gray-700 rounded-xl bg-gray-800 hover:shadow-lg transition"
             >
-              {/* Tweet Owner */}
+              {/* Tweet Author Information */}
               <div className="flex items-center mb-3">
                 <img
                   src={tweet.owner.avatar}
@@ -240,7 +256,7 @@ function Tweet() {
                 <p className="text-gray-200 mb-3">{tweet.content}</p>
               )}
 
-              {/* If tweet has image */}
+              {/* Tweet Media (if any) */}
               {tweet.image && (
                 <img
                   src={tweet.image}
@@ -249,11 +265,12 @@ function Tweet() {
                 />
               )}
 
-              {/* Actions (only for current user’s tweets) */}
+              {/* Tweet Actions and Metadata */}
               <div className="flex justify-between items-center">
                 <p className="text-gray-400 text-xs">
                   {new Date(tweet.createdAt).toLocaleString()}
                 </p>
+                {/* Action buttons - only for current user's tweets */}
                 {currentUser && tweet.owner._id === currentUser._id && (
                   <div className="flex gap-2">
                     <button

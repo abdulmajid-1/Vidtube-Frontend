@@ -19,16 +19,18 @@ export default function HomePage() {
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [selectedVideoId, setSelectedVideoId] = useState(null);
 
-  // Loading indicator for comment/video actions
+  // Loading states for comment and video actions
   const [commentLoading, setCommentLoading] = useState(false);
   const [videoLoading, setVideoLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  // Fetch videos with pagination
+  /**
+   * Fetch videos with pagination support
+   * @param {number} pageNumber - Page number to fetch
+   */
   const fetchVideos = async (pageNumber = 1) => {
     try {
-      // console.log("API URL from env:", import.meta.env.VITE_API_URL);
       const res = await axios.get(
         ` https://vidtube-backend-2.onrender.com/api/v1/videos/getAll?page=${pageNumber}`
       );
@@ -46,7 +48,9 @@ export default function HomePage() {
     fetchVideos(1);
   }, []);
 
-  // Check login status and get current user
+  /**
+   * Check user authentication status and get current user details
+   */
   useEffect(() => {
     const checkLogin = async () => {
       try {
@@ -73,6 +77,10 @@ export default function HomePage() {
     checkLogin();
   }, []);
 
+  /**
+   * Handle user logout
+   * Clears authentication state and redirects to home page
+   */
   const handleLogout = async () => {
     try {
       await axios.post(
@@ -88,7 +96,10 @@ export default function HomePage() {
     }
   };
 
-  // Load comments for selected video
+  /**
+   * Fetch comments for a specific video
+   * @param {string} videoId - ID of the video to fetch comments for
+   */
   const fetchComments = async (videoId) => {
     try {
       const res = await axios.get(
@@ -101,7 +112,9 @@ export default function HomePage() {
     }
   };
 
-  // Add new comment
+  /**
+   * Add a new comment to a video
+   */
   const addComment = async () => {
     if (!newComment.trim()) return;
     setCommentLoading(true);
@@ -120,13 +133,19 @@ export default function HomePage() {
     }
   };
 
-  // Start editing
+  /**
+   * Start editing a comment
+   * @param {string} id - Comment ID
+   * @param {string} content - Current comment content
+   */
   const startEditing = (id, content) => {
     setEditCommentId(id);
     setEditContent(content);
   };
 
-  // Save updated comment
+  /**
+   * Save updated comment
+   */
   const updateComment = async () => {
     if (!editContent.trim()) return;
     setCommentLoading(true);
@@ -146,7 +165,10 @@ export default function HomePage() {
     }
   };
 
-  // Delete comment
+  /**
+   * Delete a comment
+   * @param {string} id - Comment ID to delete
+   */
   const deleteComment = async (id) => {
     setCommentLoading(true);
     try {
@@ -164,7 +186,10 @@ export default function HomePage() {
     }
   };
 
-  // Like/Unlike a video
+  /**
+   * Toggle like/unlike for a video
+   * @param {string} videoId - Video ID to like/unlike
+   */
   const toggleVideoLike = async (videoId) => {
     if (isLoggedIn) {
       setVideoLoading(true);
@@ -183,7 +208,10 @@ export default function HomePage() {
     }
   };
 
-  // Like/Unlike a comment
+  /**
+   * Toggle like/unlike for a comment
+   * @param {string} commentId - Comment ID to like/unlike
+   */
   const toggleCommentLike = async (commentId) => {
     if (isLoggedIn) {
       setCommentLoading(true);
@@ -204,7 +232,7 @@ export default function HomePage() {
 
   return (
     <div className="bg-gray-900 min-h-screen text-gray-200">
-      {/* Navbar */}
+      {/* Navigation Bar */}
       <nav className="flex flex-col sm:flex-row justify-between items-center px-4 sm:px-6 py-4 bg-gray-800 shadow-md gap-4">
         <h1
           onClick={() => {
@@ -277,7 +305,7 @@ export default function HomePage() {
         </p>
       </div>
 
-      {/* Video Section */}
+      {/* Video Gallery Section */}
       <div className="bg-gray-800 shadow rounded-lg p-4 sm:p-6 mx-4 sm:mx-6">
         <h2 className="text-lg font-semibold mb-4 text-white">Your Videos</h2>
         {loading ? (
@@ -300,7 +328,7 @@ export default function HomePage() {
                   <div className="p-3 sm:p-4">
                     <video
                       controls
-                      playsInline //  important for iOS Safari
+                      playsInline // Important for iOS Safari compatibility
                       muted
                       className="w-full h-48 sm:h-64 rounded-md mb-3"
                     >
@@ -316,7 +344,7 @@ export default function HomePage() {
                       {new Date(video.createdAt).toLocaleDateString()}
                     </p>
 
-                    {/* Like button only if logged in */}
+                    {/* Like button - only visible for logged in users */}
                     {isLoggedIn && (
                       <button
                         onClick={(e) => {
@@ -361,7 +389,7 @@ export default function HomePage() {
                         {new Date(video.createdAt).toLocaleDateString()}
                       </p>
 
-                      {/* Like button only if logged in */}
+                      {/* Like button - only visible for logged in users */}
                       {isLoggedIn && (
                         <button
                           onClick={(e) => {
@@ -405,14 +433,14 @@ export default function HomePage() {
                 Comments
               </h2>
 
-              {/* List comments */}
+              {/* Comments List */}
               {comments.length > 0 ? (
                 comments.map((c) => (
                   <div
                     key={c._id}
                     className="mb-4 flex items-start gap-3 bg-gray-800 rounded-xl p-3 shadow hover:shadow-lg transition-all border border-gray-700"
                   >
-                    {/* Avatar */}
+                    {/* User Avatar */}
                     <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden">
                       {c.owner?.avatar ? (
                         <img
@@ -468,7 +496,7 @@ export default function HomePage() {
                             {c.content}
                           </p>
 
-                          {/* Restrict Update/Delete to owner */}
+                          {/* Comment Actions - only for comment owner */}
                           {isLoggedIn &&
                             currentUser &&
                             c.owner?._id === currentUser._id && (
@@ -497,7 +525,7 @@ export default function HomePage() {
                 <p className="text-gray-500 text-center">No comments yet.</p>
               )}
 
-              {/* Add comment */}
+              {/* Add Comment Form */}
               {isLoggedIn ? (
                 <div className="mt-6">
                   <input
@@ -521,7 +549,7 @@ export default function HomePage() {
                 </p>
               )}
 
-              {/* Close */}
+              {/* Close Modal Button */}
               <button
                 onClick={() => setShowCommentsModal(false)}
                 className="block w-full bg-gray-800 hover:bg-gray-700 text-white py-2 mt-5 rounded font-semibold transition text-sm"
@@ -532,7 +560,7 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Pagination */}
+        {/* Pagination Controls */}
         <div className="flex justify-between items-center mt-6">
           <button
             onClick={() => fetchVideos(page - 1)}

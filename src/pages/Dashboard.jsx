@@ -12,10 +12,10 @@ function Dashboard() {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
 
-  // New state for video playing
+  // State for video player functionality
   const [playingVideo, setPlayingVideo] = useState(null);
 
-  // New states for update & delete flow
+  // States for video management modes
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
 
@@ -29,7 +29,10 @@ function Dashboard() {
 
   const navigate = useNavigate();
 
-  // Check if user is logged in
+  /**
+   * Check if user is authenticated
+   * Redirects to login if not authenticated
+   */
   const checkAuth = async () => {
     try {
       const res = await axios.get(
@@ -46,6 +49,10 @@ function Dashboard() {
     }
   };
 
+  /**
+   * Fetch dashboard statistics
+   * Gets total videos, subscribers, views, and likes
+   */
   const fetchStats = async () => {
     try {
       const res = await axios.get(
@@ -58,6 +65,10 @@ function Dashboard() {
     }
   };
 
+  /**
+   * Fetch user's videos with pagination
+   * @param {number} pageNum - Page number to fetch
+   */
   const fetchVideos = async (pageNum = 1) => {
     try {
       setLoading(true);
@@ -86,7 +97,10 @@ function Dashboard() {
     }
   }, [checkingAuth]);
 
-  // EDIT HANDLING
+  /**
+   * Open edit form for a video
+   * @param {Object} video - Video object to edit
+   */
   const openEditForm = (video) => {
     setEditingVideo(video);
     setEditForm({
@@ -96,6 +110,10 @@ function Dashboard() {
     setThumbnailFile(null);
   };
 
+  /**
+   * Handle video update submission
+   * @param {Event} e - Form submission event
+   */
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     if (!editingVideo) return;
@@ -114,7 +132,7 @@ function Dashboard() {
       );
       await fetchVideos(page);
 
-      // Reset
+      // Reset form state
       setEditingVideo(null);
       setIsUpdateMode(false);
     } catch (err) {
@@ -124,11 +142,17 @@ function Dashboard() {
     }
   };
 
-  // DELETE HANDLING
+  /**
+   * Open delete confirmation for a video
+   * @param {Object} video - Video object to delete
+   */
   const openDeleteConfirm = (video) => {
     setDeletingVideo(video);
   };
 
+  /**
+   * Handle video deletion
+   */
   const handleDeleteSubmit = async () => {
     if (!deletingVideo) return;
 
@@ -140,7 +164,7 @@ function Dashboard() {
       );
       await fetchVideos(page);
 
-      // Reset
+      // Reset delete state
       setDeletingVideo(null);
       setIsDeleteMode(false);
     } catch (err) {
@@ -160,7 +184,7 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200">
-      {/* Header */}
+      {/* Header Navigation */}
       <header className="bg-gray-800 px-4 sm:px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
         <h1 className="text-2xl sm:text-3xl font-bold text-white">Dashboard</h1>
         <div className="flex flex-wrap gap-2 sm:gap-4">
@@ -193,7 +217,7 @@ function Dashboard() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8">
-        {/* Stats */}
+        {/* Statistics Cards */}
         {stats && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
             <div className="bg-gray-800 shadow rounded-lg p-3 sm:p-4 text-center">
@@ -223,7 +247,7 @@ function Dashboard() {
           </div>
         )}
 
-        {/* Videos */}
+        {/* Video Management Section */}
         <div className="bg-gray-800 shadow rounded-lg p-4 sm:p-6 relative">
           <nav className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
             <h2 className="text-lg font-semibold">Your Videos</h2>
@@ -255,6 +279,7 @@ function Dashboard() {
             </div>
           </nav>
 
+          {/* Mode Instructions */}
           {isUpdateMode && !editingVideo && (
             <p className="text-yellow-400 mb-4 text-sm">
               Select the video you want to edit
@@ -266,6 +291,7 @@ function Dashboard() {
             </p>
           )}
 
+          {/* Video Grid */}
           {loading ? (
             <p className="text-gray-400">Loading videos...</p>
           ) : videos.length === 0 ? (
@@ -303,7 +329,7 @@ function Dashboard() {
             </ul>
           )}
 
-          {/* Pagination */}
+          {/* Pagination Controls */}
           <div className="flex justify-between items-center mt-6">
             <button
               onClick={() => fetchVideos(page - 1)}
@@ -326,7 +352,7 @@ function Dashboard() {
         </div>
       </main>
 
-      {/* Edit Modal */}
+      {/* Edit Video Modal */}
       {editingVideo && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4">
           <div className="bg-gray-900 p-4 sm:p-6 rounded-xl w-full max-w-md sm:max-w-lg shadow-2xl border border-gray-700">
