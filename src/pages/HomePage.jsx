@@ -1,9 +1,7 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import api from "../api.js";
-import ReactPlayer from "react-player"; // ✅ added
 
 export default function HomePage() {
   const [videos, setVideos] = useState([]);
@@ -328,23 +326,15 @@ export default function HomePage() {
               >
                 {selectedVideo === video._id ? (
                   <div className="p-3 sm:p-4">
-                    {/* ✅ Updated Video Player with ReactPlayer */}
-                    <div className="w-full h-48 sm:h-64 rounded-md mb-3 overflow-hidden">
-                      <ReactPlayer
-                        url={video.videoFile}
-                        controls
-                        width="100%"
-                        height="100%"
-                        playsinline
-                        config={{
-                          file: {
-                            attributes: {
-                              crossOrigin: "anonymous",
-                            },
-                          },
-                        }}
-                      />
-                    </div>
+                    <video
+                      controls
+                      playsInline // Important for iOS Safari compatibility
+                      muted
+                      className="w-full h-48 sm:h-64 rounded-md mb-3"
+                    >
+                      <source src={video.videoFile} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
 
                     <h3 className="text-base sm:text-lg font-bold mb-2 text-white">
                       {video.title}
@@ -509,75 +499,7 @@ export default function HomePage() {
                           {/* Comment Actions - only for comment owner */}
                           {isLoggedIn &&
                             currentUser &&
-                            c.owner?._id === currentUser && (
-
-              // {/* Comments List */}
-              // {comments.length > 0 ? (
-              //   comments.map((c) => (
-              //     <div
-              //       key={c._id}
-              //       className="mb-4 flex items-start gap-3 bg-gray-800 rounded-xl p-3 shadow hover:shadow-lg transition-all border border-gray-700"
-              //     >
-              //       {/* User Avatar */}
-              //       <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden">
-              //         {c.owner?.avatar ? (
-              //           <img
-              //             src={c.owner.avatar}
-              //             alt={c.owner.username}
-              //             className="w-full h-full object-cover"
-              //           />
-              //         ) : (
-              //           <div className="w-full h-full bg-indigo-600 flex items-center justify-center text-white font-bold text-sm sm:text-lg">
-              //             {c.owner?.username?.[0]?.toUpperCase() || "U"}
-              //           </div>
-              //         )}
-              //       </div>
-
-              //       <div className="flex-1 min-w-0">
-              //         {editCommentId === c._id ? (
-              //           <div className="flex flex-col gap-2">
-              //             <input
-              //               type="text"
-              //               value={editContent}
-              //               onChange={(e) => setEditContent(e.target.value)}
-              //               className="w-full border border-indigo-600 bg-gray-900 text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-600 text-sm"
-              //             />
-              //             <div className="flex gap-2">
-              //               <button
-              //                 onClick={updateComment}
-              //                 disabled={commentLoading}
-              //                 className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded shadow disabled:opacity-50 text-xs sm:text-sm"
-              //               >
-              //                 {commentLoading ? "Saving..." : "Save"}
-              //               </button>
-              //               <button
-              //                 onClick={() => setEditCommentId(null)}
-              //                 className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-xs sm:text-sm"
-              //               >
-              //                 Cancel
-              //               </button>
-              //             </div>
-              //           </div>
-              //         ) : (
-              //           <>
-              //             <div className="flex items-center gap-2 mb-1">
-              //               <span className="font-semibold text-indigo-300 text-sm">
-              //                 {c.owner?.username || "Unknown"}
-              //               </span>
-              //               <span className="text-xs text-gray-400">
-              //                 {c.createdAt
-              //                   ? new Date(c.createdAt).toLocaleString()
-              //                   : ""}
-              //               </span>
-              //             </div>
-              //             <p className="text-gray-200 mb-2 text-sm">
-              //               {c.content}
-              //             </p>
-
-                          // {/* Comment Actions - only for comment owner */}
-                          // {isLoggedIn &&
-                          //   currentUser &&
-                            // c.owner?._id === currentUser._id && (
+                            c.owner?._id === currentUser._id && (
                               <div className="flex gap-2 mt-1">
                                 <button
                                   onClick={() => startEditing(c._id, c.content)}
