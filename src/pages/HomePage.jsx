@@ -330,6 +330,8 @@ export default function HomePage() {
                       controls
                       playsInline // Important for iOS Safari compatibility
                       muted
+                      webkit-playsinline
+                      preload="metadata"
                       className="w-full h-48 sm:h-64 rounded-md mb-3"
                     >
                       <source src={video.videoFile} type="video/mp4" />
